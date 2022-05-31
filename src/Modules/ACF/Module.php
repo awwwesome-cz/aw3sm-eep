@@ -20,10 +20,14 @@ class Module extends Module_Base {
 	 */
 	public function get_widgets() {
 		// Complete list of fidgets
-		return [
-			'Repeater',
-			'Repeater_Image'
-		];
+		if ( function_exists( "get_fields" ) ) {
+			return [
+				'Repeater',
+				'Repeater_Image'
+			];
+		}
+
+		return [];
 	}
 
 	/**
@@ -36,6 +40,10 @@ class Module extends Module_Base {
 	}
 
 	public function get_dynamic_tags() {
-		return [ 'Repeater' ];
+		if ( function_exists( "get_fields" ) ) {
+			return [ 'Repeater' ];
+		}
+
+		return [];
 	}
 }

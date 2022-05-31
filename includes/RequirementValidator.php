@@ -20,6 +20,7 @@ class RequirementValidator {
 		// Check requirements
 		$validator = new Validator( '7.4', 'aw3sm-eep/aw3sm-eep.php', 'aw3sm-eep' );
 		$validator->add_required_plugin( 'elementor/elementor.php', '3.6' );
+		$validator->add_required_plugin( 'elementor-pro/elementor-pro.php', '3.6' );
 		if ( ! $validator->check() ) {
 			return;
 		}

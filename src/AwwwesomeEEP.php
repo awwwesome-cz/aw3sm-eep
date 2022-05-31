@@ -24,7 +24,7 @@ class AwwwesomeEEP {
 	 * @since   1.0.0
 	 */
 	public function __construct() {
-		// RequirementValidator::requirementsValidate(); TODO: fix header error
+		RequirementValidator::requirementsValidate();// TODO: fix header error
 		// TODO: need Elementor Pro
 		$this->i18n();
 		// Load Module Manager
