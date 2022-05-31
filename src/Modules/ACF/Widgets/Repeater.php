@@ -79,7 +79,20 @@ class Repeater extends Widget_Base {
 		$acf_second_group_level[''] = __( 'None', 'aw3sm-eep' );
 
 		// get all group acf_first_group_level
-		foreach ( get_fields() as $field_key => $field ) {
+		$fields = get_fields();
+		if ( ! $fields ) {
+			$this->add_control(
+				'acf_error_description',
+				[
+					'type'            => Controls_Manager::RAW_HTML,
+					'raw'             => __( 'This post does not contains any ACF fields for show!', 'aw3sm-eep' ),
+					'separator'       => 'none',
+					'content_classes' => 'elementor-descriptor',
+				]
+			);
+			return;
+		}
+		foreach ($fields as $field_key => $field ) {
 			if ( have_rows( $field_key ) ) {
 				$obj = get_field_object( $field_key );
 
