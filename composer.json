@@ -1,0 +1,42 @@
+{
+  "name": "jayjay666/section-column-booster",
+  "type": "wordpress-plugin",
+  "description": "Complete custom slider allow create Elementor Sections and make it to the slider by Swiper. \"Elementor\" plugin is required.",
+  "homepage": "https://github.com/jayjay666/elementor-swiper",
+  "license": "GPL-2.0+",
+  "keywords": [
+    "WP",
+    "WP Plugin",
+    "WordPress",
+    "WordPress Plugin",
+    "Elementor",
+    "Elementor Plugin",
+    "Elementor Page Builder",
+    "Elementor Page Builder Plugin",
+    "Elementor Carousel",
+    "Elementor Swiper"
+  ],
+  "authors": [
+    {
+      "name": "Jakub Josef Forman",
+      "email": "dev@jakubforman.com",
+      "homepage": "https://jakubforman.eu",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "jayjay666/wp-requirements-checker": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "AwwwesomeEEP\\": "src/",
+      "AwwwesomeEEP\\Includes\\": "includes/"
+    }
+  },
+  "config": {
+    "vendor-dir": "lib"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

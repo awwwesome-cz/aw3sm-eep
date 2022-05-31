@@ -1,0 +1,8 @@
+- .DS_Store
+- /.git
+- /.gitignore
+- /.build
+- /README.md
+- filter
+- svn
+- plugin.ini
