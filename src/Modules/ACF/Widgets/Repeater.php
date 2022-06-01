@@ -73,55 +73,62 @@ class Repeater extends Widget_Base {
 		// init action
 		do_action( 'aw3sm_eep/widgets/acf/repeater/template/section_start', $this );
 
-		$acf_first_group_level      = [];
+		$acf_available_fields     = [];
+		$acf_available_fields[''] = __( 'None', 'aw3sm-eep' );
+
 		$acf_second_group_level     = [];
-		$acf_first_group_level['']  = __( 'None', 'aw3sm-eep' );
 		$acf_second_group_level[''] = __( 'None', 'aw3sm-eep' );
 
 		// get all group acf_first_group_level
-		$fields = get_fields();
-		if ( ! $fields ) {
+		$fields = get_field_objects();
+
+		if ( ! is_array( $fields ) ) {
 			$this->add_control(
 				'acf_error_description',
 				[
 					'type'            => Controls_Manager::RAW_HTML,
-					'raw'             => __( 'This post does not contains any ACF fields for show!', 'aw3sm-eep' ),
+					'raw'             => __( 'For activate ACF pickers please set preview settings as post as contains ACF non empty fields and reload editor.', 'aw3sm-eep' ),
 					'separator'       => 'none',
 					'content_classes' => 'elementor-descriptor',
 				]
 			);
 			return;
 		}
-		foreach ($fields as $field_key => $field ) {
-			if ( have_rows( $field_key ) ) {
-				$obj = get_field_object( $field_key );
 
-				if ( $obj['type'] === 'group' ) {
+		foreach ( $fields as $field_key => $field ) {
+			if ( $field['type'] === 'select' ) {
+				$acf_available_fields[ $field_key ] = $field['label'];
+			}
+			if ( $field['type'] === 'group' && isset( $field['sub_fields'] ) ) {
 
-					$acf_first_group_level[ $field_key ] = $obj['label'];
+				$acf_available_fields[ $field_key ] = $field['label'];
 
-					// get all sub groups
-					foreach ( $obj['value'] as $sub_field_key => $sub_field ) {
-						$subObj = get_sub_field_object( $sub_field_key );
-						if ( $subObj['type'] === 'select' ) {
-							$acf_second_group_level[ $sub_field_key ] = $subObj['label'];
-						}
-					}
+				// if group
+				foreach ( $field['sub_fields'] as $sub_field_key => $sub_field ) {
+					$acf_second_group_level[ $sub_field['name'] ] = $sub_field['label'];
 				}
 			}
 		}
 
+
 		$this->add_control(
-			'acf_group',
+			'acf_info_description',
 			[
-				'label'   => esc_html__( 'ACF Group', 'aw3sm-eep' ), // 1 level of ACF group
+				'type'            => Controls_Manager::RAW_HTML,
+				'raw'             => __( 'Allow to select ACF groups with single or multiple choices like "text", "select" ...', 'aw3sm-eep' ),
+				'separator'       => 'none',
+				'content_classes' => 'elementor-descriptor',
+			]
+		);
+
+
+		$this->add_control(
+			'acf_field',
+			[
+				'label'   => esc_html__( 'ACF Item', 'aw3sm-eep' ), // 1 level of ACF group
 				'type'    => Controls_Manager::SELECT2,
-				/*'dynamic'     => [
-					'default' => ProPlugin::elementor()->dynamic_tags->tag_data_to_tag_text( null, \AwwwesomeEEP\Modules\ACF\Tags\Repeater::TagName ),
-					'active'  => true,
-				],*/
 				'default' => '',
-				'options' => $acf_first_group_level,
+				'options' => $acf_available_fields,
 			],
 		);
 
@@ -137,23 +144,16 @@ class Repeater extends Widget_Base {
 		);
 
 		$this->add_control(
-			'acf_sub_group',
+			'acf_sub_field',
 			[
-				'label'   => esc_html__( 'ACF Group Items', 'aw3sm-eep' ), // 1 level of ACF group
-				'type'    => Controls_Manager::SELECT2,
-				'default' => '',
-				'options' => $acf_second_group_level,
+				'label'     => esc_html__( 'ACF Group Items', 'aw3sm-eep' ), // 1 level of ACF group
+				'type'      => Controls_Manager::SELECT2,
+				'condition' => [
+					'acf_field!' => [ '', 'tools' ],
+				],
+				'default'   => '',
+				'options'   => $acf_second_group_level,
 			],
-		);
-
-		$this->add_control(
-			'acf_sub_group_description',
-			[
-				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => __( 'ACF Group Items must have "select" type', 'aw3sm-eep' ),
-				'separator'       => 'none',
-				'content_classes' => 'elementor-descriptor',
-			]
 		);
 
 		// init action
@@ -255,34 +255,52 @@ class Repeater extends Widget_Base {
 
 	protected function render() {
 		// get settings
-		$acf_group     = $this->get_settings( 'acf_group' );
-		$acf_sub_group = $this->get_settings( 'acf_sub_group' );
+		$acf_group = $this->get_settings( 'acf_field' );
 
-		if ( '' === $acf_group || '' === $acf_sub_group ) {
+		if ( '' === $acf_group ) {
 			return;
 		}
 
 		$_finalContent = '';
 
-		if ( have_rows( $acf_group ) ) {
-			$_finalContent .= "<div class=\"acf-repeater-list\" style='display: flex'>";
-			while ( have_rows( $acf_group ) ) {
-				the_row();
-				$subField       = get_sub_field_object( trim( $acf_sub_group ) );
-				$subFieldValues = get_sub_field( trim( $acf_sub_group ) );
-				foreach ( $subFieldValues as $value ) {
-					$name = $subField['choices'][ $value ]; // Get name
+		$field = get_field_object( $acf_group );
+		if ( ! $field ) {
+			return;
+		}
+		$_finalContent .= "<div class=\"acf-repeater-list\" style='display: flex'>";
+		if ( $field['type'] != 'group' ) {
+			foreach ( $field['value'] as $value ) {
+				$name          = $field['choices'][ $value ];
+				$_finalContent .= "<div class=\"acf-repeater-item\">";
+				$_finalContent .= "<span>$name</span>";
+				$_finalContent .= "</div>";
+			}
+		} else {
+			$acf_sub_field = $this->get_settings( 'acf_sub_field' );
+			if ( '' === $acf_sub_field ) {
+				return;
+			}
+
+			$sub_field_obj = get_field_object( $field['name'] . '_' . $acf_sub_field );
+			if ( ! $sub_field_obj['multiple'] ) {
+				$name = $sub_field_obj['name'];
+
+				// single value
+				$_finalContent .= "<div class=\"acf-repeater-item\">";
+				$_finalContent .= "<span>$name</span>";
+				$_finalContent .= "</div>";
+			} else {
+				// array of values
+				foreach ( $sub_field_obj['value'] as $value ) {
+					$name = $sub_field_obj['choices'][ $value ]; // Get name
 
 					$_finalContent .= "<div class=\"acf-repeater-item\">";
 					$_finalContent .= "<span>$name</span>";
 					$_finalContent .= "</div>";
 				}
-
 			}
-			$_finalContent .= "</div>";
-		} else {
-			$_finalContent = "$acf_group does not have any rows";
 		}
+		$_finalContent .= "</div>";
 
 		echo $_finalContent;
 	}
