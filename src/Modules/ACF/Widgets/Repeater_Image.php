@@ -85,6 +85,25 @@ class Repeater_Image extends Repeater {
 				],
 			]
 		);
+
+		$this->add_control(
+			'image_height',
+			[
+				'label'     => esc_html__( 'Image Height', 'aw3sm-eep' ),
+				'type'      => Controls_Manager::SLIDER,
+				'range'     => [
+					'px' => [
+						'max' => 400,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .acf-repeater-list .acf-repeater-image img' => 'height: {{SIZE}}{{UNIT}}',
+				],
+				'default'   => [
+					'size' => 30,
+				],
+			]
+		);
 		$this->add_control(
 			'image_padding',
 			[
@@ -183,7 +202,7 @@ class Repeater_Image extends Repeater {
 				$image_src = $value;
 
 				$_finalContent .= "<div class=\"acf-repeater-item\">";
-				$_finalContent .= "<div class=\"acf-repeater-image\">";
+				$_finalContent .= "<div class=\"acf-repeater-image\" style='width: fit-content; margin: 0 auto;'>";
 				$_finalContent .= sprintf( '<img src="%s" alt="%s" style="display: block;">', $image_src, $name );
 				$_finalContent .= "</div>";
 				$_finalContent .= "<span>$name</span>";
@@ -201,7 +220,7 @@ class Repeater_Image extends Repeater {
 
 				// single value
 				$_finalContent .= "<div class=\"acf-repeater-item\">";
-				$_finalContent .= "<div class=\"acf-repeater-image\">";
+				$_finalContent .= "<div class=\"acf-repeater-image\" style='width: fit-content; margin: 0 auto;>";
 				$_finalContent .= "Single value cannot contain image URL";
 				$_finalContent .= "</div>";
 				$_finalContent .= "<span>$name</span>";
@@ -213,7 +232,7 @@ class Repeater_Image extends Repeater {
 					$image_src = $value;
 
 					$_finalContent .= "<div class=\"acf-repeater-item\">";
-					$_finalContent .= "<div class=\"acf-repeater-image\">";
+					$_finalContent .= "<div class=\"acf-repeater-image\" style='width: fit-content; margin: 0 auto;'>";
 					$_finalContent .= sprintf( '<img src="%s" alt="%s" style="display: block;">', $image_src, $name );
 					$_finalContent .= "</div>";
 					$_finalContent .= "<span>$name</span>";
