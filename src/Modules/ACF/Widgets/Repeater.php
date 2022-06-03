@@ -76,9 +76,6 @@ class Repeater extends Widget_Base {
 		$acf_available_fields     = [];
 		$acf_available_fields[''] = __( 'None', 'aw3sm-eep' );
 
-		$acf_second_group_level     = [];
-		$acf_second_group_level[''] = __( 'None', 'aw3sm-eep' );
-
 		// get all group acf_first_group_level
 		$fields = get_field_objects();
 
@@ -92,21 +89,13 @@ class Repeater extends Widget_Base {
 					'content_classes' => 'elementor-descriptor',
 				]
 			);
+
 			return;
 		}
 
 		foreach ( $fields as $field_key => $field ) {
 			if ( $field['type'] === 'select' ) {
 				$acf_available_fields[ $field_key ] = $field['label'];
-			}
-			if ( $field['type'] === 'group' && isset( $field['sub_fields'] ) ) {
-
-				$acf_available_fields[ $field_key ] = $field['label'];
-
-				// if group
-				foreach ( $field['sub_fields'] as $sub_field_key => $sub_field ) {
-					$acf_second_group_level[ $sub_field['name'] ] = $sub_field['label'];
-				}
 			}
 		}
 
@@ -129,30 +118,6 @@ class Repeater extends Widget_Base {
 				'type'    => Controls_Manager::SELECT2,
 				'default' => '',
 				'options' => $acf_available_fields,
-			],
-		);
-
-
-		$this->add_control(
-			'acf_group_description',
-			[
-				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => __( 'First level ACF Group Items must have "group" type', 'aw3sm-eep' ),
-				'separator'       => 'none',
-				'content_classes' => 'elementor-descriptor',
-			]
-		);
-
-		$this->add_control(
-			'acf_sub_field',
-			[
-				'label'     => esc_html__( 'ACF Group Items', 'aw3sm-eep' ), // 1 level of ACF group
-				'type'      => Controls_Manager::SELECT2,
-				'condition' => [
-					'acf_field!' => [ '', 'tools' ],
-				],
-				'default'   => '',
-				'options'   => $acf_second_group_level,
 			],
 		);
 
@@ -268,37 +233,11 @@ class Repeater extends Widget_Base {
 			return;
 		}
 		$_finalContent .= "<div class=\"acf-repeater-list\" style='display: flex'>";
-		if ( $field['type'] != 'group' ) {
-			foreach ( $field['value'] as $value ) {
-				$name          = $field['choices'][ $value ];
-				$_finalContent .= "<div class=\"acf-repeater-item\">";
-				$_finalContent .= "<span>$name</span>";
-				$_finalContent .= "</div>";
-			}
-		} else {
-			$acf_sub_field = $this->get_settings( 'acf_sub_field' );
-			if ( '' === $acf_sub_field ) {
-				return;
-			}
-
-			$sub_field_obj = get_field_object( $field['name'] . '_' . $acf_sub_field );
-			if ( ! $sub_field_obj['multiple'] ) {
-				$name = $sub_field_obj['name'];
-
-				// single value
-				$_finalContent .= "<div class=\"acf-repeater-item\">";
-				$_finalContent .= "<span>$name</span>";
-				$_finalContent .= "</div>";
-			} else {
-				// array of values
-				foreach ( $sub_field_obj['value'] as $value ) {
-					$name = $sub_field_obj['choices'][ $value ]; // Get name
-
-					$_finalContent .= "<div class=\"acf-repeater-item\">";
-					$_finalContent .= "<span>$name</span>";
-					$_finalContent .= "</div>";
-				}
-			}
+		foreach ( $field['value'] as $value ) {
+			$name          = $field['choices'][ $value ];
+			$_finalContent .= "<div class=\"acf-repeater-item\">";
+			$_finalContent .= "<span>$name</span>";
+			$_finalContent .= "</div>";
 		}
 		$_finalContent .= "</div>";
 

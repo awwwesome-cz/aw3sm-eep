@@ -196,49 +196,16 @@ class Repeater_Image extends Repeater {
 			return;
 		}
 		$_finalContent .= "<div class=\"acf-repeater-list\" style='display: flex'>";
-		if ( $field['type'] != 'group' ) {
-			foreach ( $field['value'] as $value ) {
-				$name      = $field['choices'][ $value ];
-				$image_src = $value;
+		foreach ( $field['value'] as $value ) {
+			$name      = $field['choices'][ $value ];
+			$image_src = $value;
 
-				$_finalContent .= "<div class=\"acf-repeater-item\">";
-				$_finalContent .= "<div class=\"acf-repeater-image\" style='width: fit-content; margin: 0 auto;'>";
-				$_finalContent .= sprintf( '<img src="%s" alt="%s" style="display: block;">', $image_src, $name );
-				$_finalContent .= "</div>";
-				$_finalContent .= "<span>$name</span>";
-				$_finalContent .= "</div>";
-			}
-		} else {
-			$acf_sub_field = $this->get_settings( 'acf_sub_field' );
-			if ( '' === $acf_sub_field ) {
-				return;
-			}
-
-			$sub_field_obj = get_field_object( $field['name'] . '_' . $acf_sub_field );
-			if ( ! $sub_field_obj['multiple'] ) {
-				$name = $sub_field_obj['name'];
-
-				// single value
-				$_finalContent .= "<div class=\"acf-repeater-item\">";
-				$_finalContent .= "<div class=\"acf-repeater-image\" style='width: fit-content; margin: 0 auto;>";
-				$_finalContent .= "Single value cannot contain image URL";
-				$_finalContent .= "</div>";
-				$_finalContent .= "<span>$name</span>";
-				$_finalContent .= "</div>";
-			} else {
-				// array of values
-				foreach ( $sub_field_obj['value'] as $value ) {
-					$name      = $sub_field_obj['choices'][ $value ]; // Get name
-					$image_src = $value;
-
-					$_finalContent .= "<div class=\"acf-repeater-item\">";
-					$_finalContent .= "<div class=\"acf-repeater-image\" style='width: fit-content; margin: 0 auto;'>";
-					$_finalContent .= sprintf( '<img src="%s" alt="%s" style="display: block;">', $image_src, $name );
-					$_finalContent .= "</div>";
-					$_finalContent .= "<span>$name</span>";
-					$_finalContent .= "</div>";
-				}
-			}
+			$_finalContent .= "<div class=\"acf-repeater-item\">";
+			$_finalContent .= "<div class=\"acf-repeater-image\" style='width: fit-content; margin: 0 auto;'>";
+			$_finalContent .= sprintf( '<img src="%s" alt="%s" style="display: block;">', $image_src, $name );
+			$_finalContent .= "</div>";
+			$_finalContent .= "<span>$name</span>";
+			$_finalContent .= "</div>";
 		}
 		$_finalContent .= "</div>";
 
