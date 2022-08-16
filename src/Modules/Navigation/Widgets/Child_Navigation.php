@@ -614,6 +614,10 @@ class Child_Navigation extends Widget_Base
     protected function render()
     {
         global $post;
+        // Get the current page's ancestors either from existing value or by executing function.
+        $post_ancestors = get_post_ancestors( $post );
+        // Get the top page id.
+        $top_page = $post_ancestors ? end( $post_ancestors ) : $post->ID;
 
         $type = $this->get_settings('child_navigation_type');
         $depth = $this->get_settings('child_navigation_depth');
@@ -623,7 +627,7 @@ class Child_Navigation extends Widget_Base
             echo $this->show_all_pages($depth);
         } elseif ($type == 'top_active_parent') {
             // show only top parent
-            echo $this->top_active_parent($post->ID, $depth);
+            echo $this->top_active_parent($top_page, $depth);
         } else {
             echo "Nothing to show";
         }
