@@ -103,7 +103,7 @@ class Child_Navigation extends Widget_Base
         $this->add_control(
             'child_navigation_type',
             [
-                'label' => esc_html__('Show sub-pages of', 'aw3sm-eep'), // 1 level of ACF group
+                'label' => esc_html__('Show sub-pages of', 'aw3sm-eep'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'all',
                 'options' => $types,
@@ -112,7 +112,7 @@ class Child_Navigation extends Widget_Base
         $this->add_control(
             'child_navigation_depth',
             [
-                'label' => esc_html__('Sub-pages depth limit', 'aw3sm-eep'), // 1 level of ACF group
+                'label' => esc_html__('Sub-pages depth limit', 'aw3sm-eep'),
                 'type' => Controls_Manager::NUMBER,
                 'default' => 0,
                 'min' => -1,
