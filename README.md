@@ -29,6 +29,10 @@ nope
 
 ![](preview/widgets/navigation-child.png)
 
+**Section Booster**
+
+![](preview/widgets/section-booster.png)
+
 ## Libraries
 
 |Lib| |

@@ -1,8 +1,8 @@
 {
-  "name": "jayjay666/section-column-booster",
+  "name": "jayjay666/aw3sm-eep",
   "type": "wordpress-plugin",
-  "description": "Complete custom slider allow create Elementor Sections and make it to the slider by Swiper. \"Elementor\" plugin is required.",
-  "homepage": "https://github.com/jayjay666/elementor-swiper",
+  "description": "Extension pack for Elementor Pro",
+  "homepage": "https://github.com/awwwesome-cz/aw3sm-eep",
   "license": "GPL-2.0+",
   "keywords": [
     "WP",
@@ -13,14 +13,25 @@
     "Elementor Plugin",
     "Elementor Page Builder",
     "Elementor Page Builder Plugin",
-    "Elementor Carousel",
-    "Elementor Swiper"
+    "Elementor Extension",
+    "Elementor Extensions",
+    "Elementor Column",
+    "Elementor Section",
+    "Elementor Widget Pack",
+    "Elementor Navigation",
+    "Elementor ACF"
   ],
   "authors": [
     {
       "name": "Jakub Josef Forman",
       "email": "dev@jakubforman.com",
       "homepage": "https://jakubforman.eu",
+      "role": "Developer"
+    },
+    {
+      "name": "Jakub Josef Forman",
+      "email": "info@awwwesome.cz",
+      "homepage": "https://awwwesome.cz",
       "role": "Developer"
     }
   ],

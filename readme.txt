@@ -4,7 +4,7 @@ Donate link: https://awwwesome.cz/
 Tags: Elementor, Elementor Pro, Elementor Extension, Extension
 Requires at least: 5.6
 Tested up to: 6.0.1
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 Requires Elementor at least: 3.6
 Elementor tested up to: 3.7.1
 Requires Elementor Pro at least: 3.6
@@ -23,8 +23,15 @@ Extension pack for elementor
 
 - Adding ACF repeater widget
 - Adding Child navigation widget
+- Adding Section & Column Booster extension
 
 == Changelog ==
+
+= 1.2.0 =
+* Adding Section & Column Booster extension
+
+= 1.1.1 =
+* Fix typo error
 
 = 1.1.0 =
 * Adding Child navigation widget

@@ -17,6 +17,7 @@ abstract class Module_Base extends Module {
 
 		// Initialize all documents
 		add_action( 'elementor/documents/register', [ $this, 'register_documents' ] );
+
 		// Init extension
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'init_extends' ] );
 	}
@@ -138,8 +139,9 @@ abstract class Module_Base extends Module {
 
 	public function init_extends() {
 		if ( ! empty( $this->get_extends() ) ) {
-			foreach ( $this->get_extends() as $extensions ) {
-				$extensions::init();
+			foreach ( $this->get_extends() as $extend ) {
+                $class_name = $this->get_reflection()->getNamespaceName() . '\\Extend\\' . $extend;
+                new $class_name();
 			}
 		}
 	}
