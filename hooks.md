@@ -13,6 +13,11 @@ None
 - aw3sm_eep/widgets/acf/repeater/template/before_section_end
 - aw3sm_eep/widgets/acf/repeater/template/after_section_end
 
+- aw3sm_eep/widgets/navigation/child_navigation/template/before_section_start
+- aw3sm_eep/widgets/navigation/child_navigation/template/section_start
+- aw3sm_eep/widgets/navigation/child_navigation/template/before_section_end
+- aw3sm_eep/widgets/navigation/child_navigation/template/after_section_end
+
 - elementor-swiper/widgets/swiper/template/after_section_end
 - elementor-swiper/widgets/swiper/template/repeater/before_population
 - elementor-swiper/widgets/swiper/template/repeater/after_population

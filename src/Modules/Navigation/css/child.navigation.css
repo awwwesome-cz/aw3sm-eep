@@ -1,0 +1,33 @@
+.child-navigation {
+  --padding-top: 10px;
+  --padding-right: 20px;
+  --padding-bottom: 10px;
+  --padding-left: 20px;
+  --margin-top: 0px;
+  --margin-right: 0px;
+  --margin-bottom: 0px;
+  --margin-left: 0px;
+  --sub-padding-left: 20px;
+}
+.child-navigation.modern {
+  list-style: none;
+  padding: 0;
+}
+.child-navigation.modern ul {
+  list-style: none;
+  padding-left: var(--sub-padding-left);
+}
+.child-navigation.modern ul.children a {
+  padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+  margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+  border-radius: 10px;
+  display: block;
+}
+.child-navigation.modern > li > a {
+  padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+  margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+  border-radius: 10px;
+  display: block;
+}
+
+/*# sourceMappingURL=child.navigation.css.map */

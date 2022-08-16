@@ -18,13 +18,20 @@ Extension pack for elementor
 == Features: ==
 
 - Adding ACF repeater widget
+- Adding Child navigation widget
 
 == Changelog ==
+
+= 1.1.0 =
+* Adding Child navigation widget
 
 = 1.0.0 =
 * First version.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Only adding widget
 
 = 1.0.0 =
 Nothing for first version

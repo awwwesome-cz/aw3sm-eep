@@ -1,0 +1,44 @@
+.child-navigation {
+  // default padding
+  --padding-top: 10px;
+  --padding-right: 20px;
+  --padding-bottom: 10px;
+  --padding-left: 20px;
+  // default margin
+  --margin-top: 0px;
+  --margin-right: 0px;
+  --margin-bottom: 0px;
+  --margin-left: 0px;
+  --sub-padding-left: 20px;
+
+  &.modern {
+    list-style: none;
+    padding: 0;
+
+    ul {
+      list-style: none;
+      padding-left: var(--sub-padding-left);
+
+    }
+
+    ul.children {
+      a {
+        // set padding from control
+        padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+        margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+        border-radius: 10px;
+        display: block;
+      }
+    }
+
+    > li {
+      > a {
+        // set padding from control
+        padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+        margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+        border-radius: 10px;
+        display: block;
+      }
+    }
+  }
+}

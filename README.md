@@ -4,7 +4,8 @@ Elementor Extension pack is an extension plugin for Elementor page builder. Addi
 
 ## Free Features
 
-- Adding ACF repeater widget
+- Adding `ACF repeater` widget
+- Adding `Child Navigation` widget
 
 ## Translation Ready
 
@@ -23,6 +24,10 @@ nope
 **ACF repeater**
 
 ![](preview/widgets/acf-repeater.png)
+
+**Child Navigation**
+
+![](preview/widgets/navigation-child.png)
 
 ## Libraries
 

@@ -21,6 +21,7 @@ class ModuleManager extends Modules_Manager {
 		return [
 			// set module names from folder Modules
 			'ACF',
+			'Navigation',
 		];
 	}
 }
