@@ -5,7 +5,7 @@
 include_once "config.php";
 
 $filename_dir             = ROOT_DIR . "/readme.txt";
-$filename_dir_plugin_main = ROOT_DIR . "/wc-custom-emails-triggers.php";
+$filename_dir_plugin_main = ROOT_DIR . "/aw3sm-eep.php";
 
 if ( ! file_exists( $filename_dir ) || ! file_exists( $filename_dir_plugin_main ) ) {
 	return;
@@ -23,6 +23,10 @@ $replacements_txt = [
 	"/^Tested up to: [0-9.]*\n/m"      => "Tested up to: $ini[tested_up_to]\n",
 	"/^Stable tag: [0-9.]*\n/m"        => "Stable tag: $ini[stable_tag]\n",
 	"/^Requires at least: [0-9.]*\n/m" => "Requires at least: $ini[requires_at_least]\n",
+    "/^Requires Elementor at least: [0-9.]*\n/m" => "Requires Elementor at least: $ini[elementor_requires_at_least]\n",
+    "/^Elementor tested up to: [0-9.]*\n/m"      => "Elementor tested up to: $ini[elementor_tested_up_to]\n",
+    "/^Requires Elementor Pro at least: [0-9.]*\n/m" => "Requires Elementor Pro at least: $ini[elementor_pro_requires_at_least]\n",
+    "/^Elementor Pro tested up to: [0-9.]*\n/m"      => "Elementor Pro tested up to: $ini[elementor_pro_tested_up_to]\n",
 ];
 
 // Replace content in TXT file
@@ -40,8 +44,8 @@ $replacements_plugin_main = [
 	"/^ \* Requires at least: [0-9.]*\n/m"           => " * Requires at least: $ini[requires_at_least]\n",
 	"/^ \* Requires Elementor at least: [0-9.]*\n/m" => " * Requires Elementor at least: $ini[elementor_requires_at_least]\n",
 	"/^ \* Elementor tested up to: [0-9.]*\n/m"      => " * Elementor tested up to: $ini[elementor_tested_up_to]\n",
-	"/^ \* Requires WC at least: [0-9.]*\n/m"        => " * Requires WC at least: $ini[woo_requires_at_least]\n",
-	"/^ \* WC tested up to: [0-9.]*\n/m"             => " * WC tested up to: $ini[woo_tested_up_to]\n",
+	"/^ \* Requires Elementor Pro at least: [0-9.]*\n/m" => " * Requires Elementor Pro at least: $ini[elementor_pro_requires_at_least]\n",
+	"/^ \* Elementor Pro tested up to: [0-9.]*\n/m"      => " * Elementor Pro tested up to: $ini[elementor_pro_tested_up_to]\n",
 ];
 
 // Replace content in plugin main PHP file
