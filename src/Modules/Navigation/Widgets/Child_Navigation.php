@@ -153,7 +153,7 @@ class Child_Navigation extends Widget_Base
         $this->start_controls_section(
             'style_parent',
             [
-                'label' => __('Parent Display', 'aw3sm-eep'),
+                'label' => __('List style', 'aw3sm-eep'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -162,7 +162,7 @@ class Child_Navigation extends Widget_Base
 
         $this->end_controls_section();
 
-        $this->start_controls_section(
+        /*$this->start_controls_section(
             'style_children',
             [
                 'label' => __('Children Display', 'aw3sm-eep'),
@@ -174,9 +174,10 @@ class Child_Navigation extends Widget_Base
             ]
         );
 
-        $this->register_children_style_controls();
+       $this->register_children_style_controls();
+        */
 
-        $this->end_controls_section();
+       //  $this->end_controls_section();
 
     }
 
@@ -232,6 +233,19 @@ class Child_Navigation extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'link_background_color_normal',
+            [
+                'type' => Controls_Manager::COLOR,
+                'label' => esc_html__('Background Link Color', 'aw3sm-eep'),
+                'name' => 'text_color',
+                'selectors' => [
+                    '{{WRAPPER}} .child-navigation.modern > li > a' => 'background: {{VALUE}};',
+                ],
+            ]
+        );
+
+
         $this->end_controls_tab();
 
         $this->start_controls_tab(
@@ -249,6 +263,18 @@ class Child_Navigation extends Widget_Base
                 'name' => 'text_color',
                 'selectors' => [
                     '{{WRAPPER}} .child-navigation li a:hover' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'link_background_color_hover',
+            [
+                'type' => Controls_Manager::COLOR,
+                'label' => esc_html__('Background Link Color', 'aw3sm-eep'),
+                'name' => 'text_color',
+                'selectors' => [
+                    '{{WRAPPER}} .child-navigation.modern > li > a:hover' => 'background: {{VALUE}};',
                 ],
             ]
         );
@@ -272,69 +298,6 @@ class Child_Navigation extends Widget_Base
                     '{{WRAPPER}} .child-navigation li.current_page_item a' => 'color: {{VALUE}};',
                     '{{WRAPPER}} .child-navigation .children li.current_page_item a' => 'color: {{VALUE}};',
                 ],
-            ]
-        );
-
-        $this->end_controls_tab();
-
-        $this->end_controls_tabs();
-
-        // Background color
-
-        $this->start_controls_tabs('background_colors',
-            [
-                'condition' => [
-                    'html_style' => 'modern',
-                ],
-            ]
-        );
-
-        $this->start_controls_tab(
-            'link_background_colors_normal',
-            [
-                'label' => esc_html__('Normal', 'aw3sm-eep'),
-            ]
-        );
-
-        $this->add_control(
-            'link_background_color_normal',
-            [
-                'type' => Controls_Manager::COLOR,
-                'label' => esc_html__('Background Link Color', 'aw3sm-eep'),
-                'name' => 'text_color',
-                'selectors' => [
-                    '{{WRAPPER}} .child-navigation.modern > li > a' => 'background: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'link_background_colors_hover',
-            [
-                'label' => esc_html__('Hover', 'aw3sm-eep'),
-            ]
-        );
-
-        $this->add_control(
-            'link_background_color_hover',
-            [
-                'type' => Controls_Manager::COLOR,
-                'label' => esc_html__('Background Link Color', 'aw3sm-eep'),
-                'name' => 'text_color',
-                'selectors' => [
-                    '{{WRAPPER}} .child-navigation.modern > li > a:hover' => 'background: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->end_controls_tab();
-
-        $this->start_controls_tab(
-            'link_background_colors_active',
-            [
-                'label' => esc_html__('Active', 'aw3sm-eep'),
             ]
         );
 

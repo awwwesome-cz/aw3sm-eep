@@ -3,15 +3,24 @@
   --padding-right: 20px;
   --padding-bottom: 10px;
   --padding-left: 20px;
-  --margin-top: 0px;
-  --margin-right: 0px;
-  --margin-bottom: 0px;
-  --margin-left: 0px;
+  --margin-top: 5px;
+  --margin-right: 5px;
+  --margin-bottom: 5px;
+  --margin-left: 5px;
   --sub-padding-left: 20px;
 }
 .child-navigation.modern {
   list-style: none;
   padding: 0;
+  /*> li {
+    > a {
+      // set padding from control
+      padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+      margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+      border-radius: 10px;
+      display: block;
+    }
+  }*/
 }
 .child-navigation.modern ul {
   list-style: none;
@@ -28,13 +37,7 @@
 .child-navigation.modern ul.children {
   display: none;
 }
-.child-navigation.modern ul.children a {
-  padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
-  margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
-  border-radius: 10px;
-  display: block;
-}
-.child-navigation.modern > li > a {
+.child-navigation.modern a {
   padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
   margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
   border-radius: 10px;

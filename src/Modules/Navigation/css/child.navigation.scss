@@ -5,10 +5,10 @@
   --padding-bottom: 10px;
   --padding-left: 20px;
   // default margin
-  --margin-top: 0px;
-  --margin-right: 0px;
-  --margin-bottom: 0px;
-  --margin-left: 0px;
+  --margin-top: 5px;
+  --margin-right: 5px;
+  --margin-bottom: 5px;
+  --margin-left: 5px;
   --sub-padding-left: 20px;
 
   &.modern {
@@ -31,17 +31,18 @@
 
     ul.children {
       display: none;
-
-      a {
-        // set padding from control
-        padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
-        margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
-        border-radius: 10px;
-        display: block;
-      }
     }
 
-    > li {
+    // global link
+    a {
+      // set padding from control
+      padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+      margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+      border-radius: 10px;
+      display: block;
+    }
+
+    /*> li {
       > a {
         // set padding from control
         padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
@@ -49,6 +50,6 @@
         border-radius: 10px;
         display: block;
       }
-    }
+    }*/
   }
 }
