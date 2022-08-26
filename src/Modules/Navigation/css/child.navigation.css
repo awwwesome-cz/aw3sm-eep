@@ -17,6 +17,17 @@
   list-style: none;
   padding-left: var(--sub-padding-left);
 }
+.child-navigation.modern .current_page_parent,
+.child-navigation.modern .current_page_item {
+  display: block;
+}
+.child-navigation.modern .current_page_parent > ul.children,
+.child-navigation.modern .current_page_item > ul.children {
+  display: block;
+}
+.child-navigation.modern ul.children {
+  display: none;
+}
 .child-navigation.modern ul.children a {
   padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
   margin: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);

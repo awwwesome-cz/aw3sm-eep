@@ -21,7 +21,17 @@
 
     }
 
+    .current_page_parent,
+    .current_page_item {
+      display: block;
+      > ul.children {
+        display: block;
+      }
+    }
+
     ul.children {
+      display: none;
+
       a {
         // set padding from control
         padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
