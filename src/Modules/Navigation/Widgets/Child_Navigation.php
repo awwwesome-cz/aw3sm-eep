@@ -192,7 +192,7 @@ class Child_Navigation extends Widget_Base
         $this->add_control(
             'html_style',
             [
-                'label' => esc_html__('HTML style', 'aw3sm-eep'),
+                'label' => esc_html__('Parent style', 'aw3sm-eep'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'list',
                 'options' => [
@@ -201,7 +201,6 @@ class Child_Navigation extends Widget_Base
                 ]
             ]
         );
-
     }
 
     /**
@@ -240,7 +239,7 @@ class Child_Navigation extends Widget_Base
                 'label' => esc_html__('Background Link Color', 'aw3sm-eep'),
                 'name' => 'text_color',
                 'selectors' => [
-                    '{{WRAPPER}} .child-navigation.modern > li > a' => 'background: {{VALUE}};',
+                    '{{WRAPPER}} .child-navigation.modern li a' => 'background: {{VALUE}};',
                 ],
             ]
         );
@@ -274,7 +273,7 @@ class Child_Navigation extends Widget_Base
                 'label' => esc_html__('Background Link Color', 'aw3sm-eep'),
                 'name' => 'text_color',
                 'selectors' => [
-                    '{{WRAPPER}} .child-navigation.modern > li > a:hover' => 'background: {{VALUE}};',
+                    '{{WRAPPER}} .child-navigation.modern li a:hover' => 'background: {{VALUE}};',
                 ],
             ]
         );
@@ -295,8 +294,7 @@ class Child_Navigation extends Widget_Base
                 'label' => esc_html__('Link Color', 'aw3sm-eep'),
                 'name' => 'text_color',
                 'selectors' => [
-                    '{{WRAPPER}} .child-navigation li.current_page_item a' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .child-navigation .children li.current_page_item a' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .child-navigation li.current_page_item > a' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -308,8 +306,7 @@ class Child_Navigation extends Widget_Base
                 'label' => esc_html__('Background Link Color', 'aw3sm-eep'),
                 'name' => 'text_color',
                 'selectors' => [
-                    '{{WRAPPER}} .child-navigation .current_page_item a' => 'background: {{VALUE}};',
-                    '{{WRAPPER}} .child-navigation .children .current_page_item a' => 'background: {{VALUE}};',
+                    '{{WRAPPER}} .child-navigation li.current_page_item > a' => 'background: {{VALUE}};',
                 ],
             ]
         );
@@ -326,7 +323,7 @@ class Child_Navigation extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%'],
                 'selectors' => [
-                    '{{WRAPPER}} .child-navigation.modern > li > a' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .child-navigation.modern li a' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
                 'condition' => [
                     'html_style' => 'modern',
@@ -342,7 +339,7 @@ class Child_Navigation extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%', 'rem'],
                 'selectors' => [
-                    '{{WRAPPER}} .child-navigation.modern > li > a' => '--padding-top: {{TOP}}{{UNIT}}; --padding-right: {{RIGHT}}{{UNIT}}; --padding-bottom: {{BOTTOM}}{{UNIT}}; --padding-left: {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .child-navigation.modern li a' => '--padding-top: {{TOP}}{{UNIT}}; --padding-right: {{RIGHT}}{{UNIT}}; --padding-bottom: {{BOTTOM}}{{UNIT}}; --padding-left: {{LEFT}}{{UNIT}};',
                 ],
                 'condition' => [
                     'html_style' => 'modern',
@@ -358,7 +355,7 @@ class Child_Navigation extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%', 'rem'],
                 'selectors' => [
-                    '{{WRAPPER}} .child-navigation.modern > li > a' => '--margin-top: {{TOP}}{{UNIT}}; --margin-right: {{RIGHT}}{{UNIT}}; --margin-bottom: {{BOTTOM}}{{UNIT}}; --margin-left: {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .child-navigation.modern li a' => '--margin-top: {{TOP}}{{UNIT}}; --margin-right: {{RIGHT}}{{UNIT}}; --margin-bottom: {{BOTTOM}}{{UNIT}}; --margin-left: {{LEFT}}{{UNIT}};',
                 ],
                 'condition' => [
                     'html_style' => 'modern',

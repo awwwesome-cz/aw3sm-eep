@@ -1,3 +1,10 @@
+.elementor-element-edit-mode .child-navigation ul {
+  display: block !important;
+}
+.elementor-element-edit-mode .child-navigation ul.children {
+  display: block !important;
+}
+
 .child-navigation {
   --padding-top: 10px;
   --padding-right: 20px;
@@ -26,6 +33,9 @@
   list-style: none;
   padding-left: var(--sub-padding-left);
 }
+.child-navigation.modern ul.children {
+  display: none;
+}
 .child-navigation.modern .current_page_parent,
 .child-navigation.modern .current_page_item {
   display: block;
@@ -33,9 +43,6 @@
 .child-navigation.modern .current_page_parent > ul.children,
 .child-navigation.modern .current_page_item > ul.children {
   display: block;
-}
-.child-navigation.modern ul.children {
-  display: none;
 }
 .child-navigation.modern a {
   padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);

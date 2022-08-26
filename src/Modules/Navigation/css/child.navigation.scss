@@ -1,3 +1,16 @@
+// show all if in elementor edit mode
+.elementor-element-edit-mode {
+  .child-navigation {
+    ul {
+      display: block !important;
+
+      &.children {
+        display: block !important;
+      }
+    }
+  }
+}
+
 .child-navigation {
   // default padding
   --padding-top: 10px;
@@ -11,27 +24,31 @@
   --margin-left: 5px;
   --sub-padding-left: 20px;
 
+
   &.modern {
     list-style: none;
     padding: 0;
 
+    // every list style
     ul {
       list-style: none;
       padding-left: var(--sub-padding-left);
+    }
 
+    // every children list style
+    ul.children {
+      display: none;
     }
 
     .current_page_parent,
     .current_page_item {
       display: block;
+
       > ul.children {
         display: block;
       }
     }
 
-    ul.children {
-      display: none;
-    }
 
     // global link
     a {
@@ -42,6 +59,7 @@
       display: block;
     }
 
+    // sub links
     /*> li {
       > a {
         // set padding from control
