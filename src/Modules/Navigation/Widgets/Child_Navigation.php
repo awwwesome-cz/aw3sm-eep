@@ -244,6 +244,14 @@ class Child_Navigation extends Widget_Base
             ]
         );
 
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'link_border_normal',
+                'label' => esc_html__( 'Border', 'aw3sm-eep' ),
+                'selector' => '{{WRAPPER}} .child-navigation.modern li a',
+            ]
+        );
 
         $this->end_controls_tab();
 
@@ -278,6 +286,15 @@ class Child_Navigation extends Widget_Base
             ]
         );
 
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'link_border_hover',
+                'label' => esc_html__( 'Border', 'aw3sm-eep' ),
+                'selector' => '{{WRAPPER}} .child-navigation.modern li a:hover',
+            ]
+        );
+
         $this->end_controls_tab();
 
         $this->start_controls_tab(
@@ -308,6 +325,15 @@ class Child_Navigation extends Widget_Base
                 'selectors' => [
                     '{{WRAPPER}} .child-navigation li.current_page_item > a' => 'background: {{VALUE}};',
                 ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'link_border_active',
+                'label' => esc_html__( 'Border', 'aw3sm-eep' ),
+                'selector' => '{{WRAPPER}} .child-navigation.modern li.current_page_item > a a',
             ]
         );
 
