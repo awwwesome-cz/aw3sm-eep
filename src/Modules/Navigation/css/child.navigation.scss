@@ -40,6 +40,8 @@
       display: none;
     }
 
+    // any list with active item (or child item) show first child as display: block
+    .current_page_ancestor,
     .current_page_parent,
     .current_page_item {
       display: block;

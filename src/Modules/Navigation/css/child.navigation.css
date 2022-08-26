@@ -36,10 +36,12 @@
 .child-navigation.modern ul.children {
   display: none;
 }
+.child-navigation.modern .current_page_ancestor,
 .child-navigation.modern .current_page_parent,
 .child-navigation.modern .current_page_item {
   display: block;
 }
+.child-navigation.modern .current_page_ancestor > ul.children,
 .child-navigation.modern .current_page_parent > ul.children,
 .child-navigation.modern .current_page_item > ul.children {
   display: block;
