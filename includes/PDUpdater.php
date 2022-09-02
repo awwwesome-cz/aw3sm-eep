@@ -109,10 +109,9 @@ class PDUpdater {
 
 				$this->get_repository_info();
 
-				$out_of_date = version_compare( str_replace( $this->tag_name_prefix, "",
-					$this->github_response['tag_name'] ), $checked[ $this->basename ], 'gt' );
-
 				$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
+
+				$out_of_date = version_compare( $new_version, $checked[ $this->basename ], 'gt' );
 
 				if ( $out_of_date ) {
 					foreach ( $this->github_response['assets'] as $asset ) {
@@ -149,6 +148,7 @@ class PDUpdater {
 			if ( $args->slug == current( explode( '/', $this->basename ) ) ) {
 				$this->get_repository_info();
 
+				$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
 				foreach ( $this->github_response['assets'] as $asset ) {
 					if ( $asset['content_type'] == 'application/zip' && $asset['name'] == "aw3sm-eep-$new_version.zip" ) {
 						$download_zip = $asset['browser_download_url'];
@@ -161,11 +161,7 @@ class PDUpdater {
 					'slug'              => $this->basename,
 					'requires'          => $this->plugin['RequiresWP'], // TODO: get from API
 					'tested'            => '5.4', // TODO: get from api
-					'version'           => str_replace(
-						$this->tag_name_prefix,
-						"",
-						$this->github_response['tag_name']
-					),
+					'version'           => $new_version,
 					'author'            => $this->plugin['AuthorName'],
 					'author_profile'    => $this->plugin['AuthorURI'],
 					'last_updated'      => $this->github_response['published_at'],
