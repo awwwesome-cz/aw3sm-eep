@@ -86,10 +86,11 @@ class PDUpdater {
 				$response = current( $response );
 			}
 
-			if ( $this->authorize_token ) {
+			/*if ( $this->authorize_token ) {
+				// TODO: access_token
 				$response['zipball_url'] = add_query_arg( 'access_token', $this->authorize_token,
 					$response['zipball_url'] );
-			}
+			}*/
 
 			$this->github_response = $response;
 		}
@@ -111,15 +112,24 @@ class PDUpdater {
 				$out_of_date = version_compare( str_replace( $this->tag_name_prefix, "",
 					$this->github_response['tag_name'] ), $checked[ $this->basename ], 'gt' );
 
+				$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
+
 				if ( $out_of_date ) {
-					$new_files = $this->github_response['zipball_url'];
-					$slug      = current( explode( '/', $this->basename ) );
+					foreach ( $this->github_response['assets'] as $asset ) {
+						if ( $asset['content_type'] == 'application/zip' && $asset['name'] == "aw3sm-eep-$new_version.zip" ) {
+							$new_files = $asset['browser_download_url'];
+							break;
+						}
+					}
+
+					// $new_files = $this->github_response['zipball_url'];
+					$slug = current( explode( '/', $this->basename ) );
 
 					$plugin = [
 						'url'         => $this->plugin['PluginURI'],
 						'slug'        => $slug,
-						'package'     => $new_files,
-						'new_version' => str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] )
+						'package'     => $new_files ?? null,
+						'new_version' => $new_version
 					];
 
 					$transient->response[ $this->basename ] = (object) $plugin;
@@ -138,6 +148,13 @@ class PDUpdater {
 		if ( ! empty( $args->slug ) ) {
 			if ( $args->slug == current( explode( '/', $this->basename ) ) ) {
 				$this->get_repository_info();
+
+				foreach ( $this->github_response['assets'] as $asset ) {
+					if ( $asset['content_type'] == 'application/zip' && $asset['name'] == "aw3sm-eep-$new_version.zip" ) {
+						$download_zip = $asset['browser_download_url'];
+						break;
+					}
+				}
 
 				$plugin = [
 					'name'              => $this->plugin['Name'],
@@ -158,7 +175,7 @@ class PDUpdater {
 						'Description' => $this->plugin['Description'],
 						'Updates'     => $this->github_response['body'],
 					],
-					'download_link'     => $this->github_response['zipball_url']
+					'download_link'     => $download_zip ?? null
 				];
 
 				return (object) $plugin;
