@@ -20,6 +20,7 @@ class ModuleManager extends Modules_Manager {
 	public function get_modules_names() {
 		return [
 			// set module names from folder Modules
+			'Utils',
 			'ACF',
 			'Navigation',
 			'Section',

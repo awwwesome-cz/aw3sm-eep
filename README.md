@@ -11,6 +11,12 @@ Elementor Extension pack is an extension plugin for Elementor page builder. Addi
 
 nope
 
+## Tags Widgets
+
+**Template dynamic tag**
+
+![](preview/tags/template.png)
+
 ## Preview Widgets
 
 **ACF dynamic tag repeater**
