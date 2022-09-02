@@ -21,7 +21,7 @@ class PDUpdater {
 		$this->file = $file;
 		add_action( 'admin_init', [ $this, 'set_plugin_properties' ] );
 
-		return $this;
+		// return $this;
 	}
 
 	public function set_plugin_properties() {
@@ -97,12 +97,13 @@ class PDUpdater {
 	}
 
 	public function initialize() {
-		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'modify_transient' ], 10, 1 );
+		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_update' ], 10, 1 );
+
 		add_filter( 'plugins_api', [ $this, 'plugin_popup' ], 10, 3 );
 		add_filter( 'upgrader_post_install', [ $this, 'after_install' ], 10, 3 );
 	}
 
-	public function modify_transient( $transient ) {
+	public function check_update( $transient ) {
 
 		if ( property_exists( $transient, 'checked' ) ) {
 			if ( $checked = $transient->checked ) {
@@ -139,46 +140,53 @@ class PDUpdater {
 		return $transient;
 	}
 
-	public function plugin_popup( $result, $action, $args ) {
-		if ( $action !== 'plugin_information' ) {
-			return false;
+	public function plugin_popup( $_data, $_action, $_args ) {
+		if ( 'plugin_information' !== $_action ) {
+			return $_data;
 		}
 
-		if ( ! empty( $args->slug ) ) {
-			if ( $args->slug == current( explode( '/', $this->basename ) ) ) {
-				$this->get_repository_info();
+		if ( ! isset( $_args->slug ) || ( $_args->slug !== current( explode( '/', $this->basename ) ) ) ) {
+			return $_data;
+		}
 
-				$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
-				foreach ( $this->github_response['assets'] as $asset ) {
-					if ( $asset['content_type'] == 'application/zip' && $asset['name'] == "aw3sm-eep-$new_version.zip" ) {
-						$download_zip = $asset['browser_download_url'];
-						break;
-					}
-				}
+		$this->get_repository_info();
 
-				$plugin = [
-					'name'              => $this->plugin['Name'],
-					'slug'              => $this->basename,
-					'requires'          => $this->plugin['RequiresWP'], // TODO: get from API
-					'tested'            => '5.4', // TODO: get from api
-					'version'           => $new_version,
-					'author'            => $this->plugin['AuthorName'],
-					'author_profile'    => $this->plugin['AuthorURI'],
-					'last_updated'      => $this->github_response['published_at'],
-					'homepage'          => $this->plugin['PluginURI'],
-					'short_description' => $this->plugin['Description'],
-					'sections'          => [
-						'Description' => $this->plugin['Description'],
-						'Updates'     => $this->github_response['body'],
-					],
-					'download_link'     => $download_zip ?? null
-				];
-
-				return (object) $plugin;
+		$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
+		foreach ( $this->github_response['assets'] as $asset ) {
+			if ( $asset['content_type'] == 'application/zip' && $asset['name'] == "aw3sm-eep-$new_version.zip" ) {
+				$download_zip = $asset['browser_download_url'];
+				break;
 			}
 		}
 
-		return $result;
+		$api_request_transient         = new \stdClass();
+		$api_request_transient->name   = $this->plugin['Name'];
+		$api_request_transient->slug   = $this->basename;
+		$api_request_transient->author = $this->plugin['AuthorName'];
+		// $api_request_transient->author_profile = $this->plugin['AuthorURI'];
+		$api_request_transient->homepage = $this->plugin['PluginURI'];  // TODO: get from API
+		$api_request_transient->requires = $this->plugin['RequiresWP'];  // TODO: get from API
+		$api_request_transient->tested   = '6.0'; // TODO: get from api
+
+		$api_request_transient->version       = $new_version;
+		$api_request_transient->last_updated  = $this->github_response['published_at'];
+		$api_request_transient->download_link = $download_zip ?? null;
+		/*$api_request_transient->banners = [
+			"high" => "https://",
+			"low" => "https://"
+		];*/
+		$api_request_transient->autoupdate = true;
+
+		$api_request_transient->sections = [
+			// tabs in information plugin page
+			'Description' => $this->plugin['Description'],
+			// 'Updates'     => $this->github_response['body'],
+			'Changelog'   => $this->github_response['body'],
+		];
+
+		$_data = $api_request_transient;
+
+		return $_data;
 	}
 
 	public function after_install( $response, $hook_extra, $result ) {
