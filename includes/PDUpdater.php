@@ -127,6 +127,7 @@ class PDUpdater {
 
 					$plugin = [
 						'url'         => $this->plugin['PluginURI'],
+						// TODO: hodilo error, že to je undefined pole, zjistit proč... hodilo po zapnutí dockeru "PluginURI"
 						'slug'        => $slug,
 						'package'     => $new_files ?? null,
 						'new_version' => $new_version

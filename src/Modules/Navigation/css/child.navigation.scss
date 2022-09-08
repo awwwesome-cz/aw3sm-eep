@@ -11,6 +11,91 @@
   }
 }
 
+// TODO: other extra custom breakpoints in future: body[data-elementor-device-mode=...]
+// single small
+body[data-elementor-device-mode=mobile] {
+  .breakpoint-mobile {
+    .child-navigation-container {
+      .menu-toggle {
+        display: flex;
+      }
+
+      > .child-navigation-inner {
+        display: none;
+      }
+    }
+  }
+}
+
+// Large tablet and down
+body[data-elementor-device-mode=tablet],
+body[data-elementor-device-mode=mobile] {
+  .breakpoint-tablet {
+    .child-navigation-container {
+      .menu-toggle {
+        display: flex;
+      }
+
+      > .child-navigation-inner {
+        display: none;
+      }
+    }
+  }
+}
+
+.child-navigation-container {
+  // UL navigation container
+  .child-navigation-inner {
+    &.active {
+      display: block !important;
+    }
+
+    // TODO: animation slide down
+  }
+
+  // toggle title with icon
+  .menu-toggle {
+    display: none;
+    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+
+    // TODO: animation icon
+    .menu-toggle-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--nav-menu-icon-size, 22px);
+      // padding: 0.25em;
+      // border: 0 solid;
+      // border-radius: 3px;
+      // background-color: rgba(0, 0, 0, 0.05);
+      // color: #494c4f;
+
+      &.active .elementor-menu-toggle__icon--open {
+        display: none;
+      }
+
+      &:not(.active) .elementor-menu-toggle__icon--close {
+        display: none;
+      }
+    }
+  }
+}
+
+/*
+
+
+.title {
+  display: block;
+}*/
+
+/*.elementor-nav-menu--dropdown-mobile .elementor-nav-menu--main {
+  display: none;
+}*/
+// }
+
+
 .child-navigation {
   // default padding
   --padding-top: 10px;
