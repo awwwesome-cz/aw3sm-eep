@@ -693,8 +693,8 @@ class Child_Navigation extends Widget_Base {
 	 * @return string
 	 */
 	function render_nav( int $depth = 0, int $top_page = null, array $exclude = [] ) {
-		$title            = $this->get_settings( 'title' );
-		$title_responsive = $this->get_settings( 'toggle_title' );
+		$title            = $this->get_settings_for_display( 'title' );
+		$title_responsive = $this->get_settings_for_display( 'toggle_title' );
 		$_finalContent    = "<nav class='child-navigation-container'>";
 		// TODO: outside nav
 		$_finalContent .= "<div class='menu-toggle'>";
