@@ -119,7 +119,7 @@ class Child_Navigation extends Widget_Base {
 		$types['top_active_parent'] = __( 'Top Active Page Parent', 'aw3sm-eep' );
 
 		$this->add_control(
-			'child_navigation_type',
+			'child_navigation_source',
 			[
 				'label'   => esc_html__( 'Show sub-pages of', 'aw3sm-eep' ),
 				'type'    => Controls_Manager::SELECT,
@@ -141,7 +141,7 @@ class Child_Navigation extends Widget_Base {
 			'child_navigation_depth_description',
 			[
 				'type'            => Controls_Manager::RAW_HTML,
-				'raw'             => __( 'Set -1 without hierarchy, 0 for unlimited dept, 1 for only one level depth, 2 for two levels...',
+				'raw'             => __( 'Set -1 without hierarchy, 0 for unlimited depth, 1 for only one level depth, 2 for two levels...',
 					'aw3sm-eep' ),
 				'separator'       => 'none',
 				'content_classes' => 'elementor-descriptor',
@@ -642,16 +642,16 @@ class Child_Navigation extends Widget_Base {
 		// Get the top page id.
 		$top_page = $post_ancestors ? end( $post_ancestors ) : $post->ID;
 
-		$type  = $this->get_settings( 'child_navigation_type' );
+		$source  = $this->get_settings( 'child_navigation_source' );
 		$depth = $this->get_settings( 'child_navigation_depth' );
 
-		if ( $type == 'all' ) {
+		if ( $source == 'all' ) {
 			// show all pages
-			echo $this->show_all_pages( $depth );
-		} elseif ( $type == 'top_active_parent' ) {
+			echo $this->render_nav( $depth );
+		} elseif ( $source == 'top_active_parent' ) {
 			// show only top parent
-			$this->print_render_attribute_string( 'dropdown' );
-			echo $this->top_active_parent( $top_page, $depth );
+			// $this->print_render_attribute_string( 'dropdown' );
+			echo $this->render_nav( $depth, $top_page );
 		} else {
 			echo "Nothing to show";
 		}
@@ -686,16 +686,16 @@ class Child_Navigation extends Widget_Base {
 	/**
 	 * Show all child pages under parent (top page)
 	 *
-	 * @param int $top_page Top parent page
 	 * @param int $depth Max depth
+	 * @param int|null $top_page Top parent page
 	 * @param array $exclude Array of excluded ids
 	 *
 	 * @return string
 	 */
-	function top_active_parent( int $top_page, int $depth = 0, array $exclude = [] ) {
+	function render_nav( int $depth = 0, int $top_page = null, array $exclude = [] ) {
 		$title            = $this->get_settings( 'title' );
 		$title_responsive = $this->get_settings( 'toggle_title' );
-		$_finalContent    = "<div class='child-navigation-container'>";
+		$_finalContent    = "<nav class='child-navigation-container'>";
 		// TODO: outside nav
 		$_finalContent .= "<div class='menu-toggle'>";
 		$_finalContent .= "<div class='title'>$title_responsive</div>";
@@ -705,7 +705,7 @@ class Child_Navigation extends Widget_Base {
 
 		//set title to hide clas on breakpoint
 		$_finalContent .= "<div class='child-navigation-inner'>";
-		if($title){
+		if ( $title ) {
 			$_finalContent .= "<div class='title'>$title</div>";
 		}
 		$_finalContent .= "<ul class='child-navigation modern'>";
@@ -721,7 +721,7 @@ class Child_Navigation extends Widget_Base {
 
 		$_finalContent .= "</ul>";
 		$_finalContent .= "</div>";
-		$_finalContent .= "</div>";
+		$_finalContent .= "</nav>";
 
 		return $_finalContent;
 	}
@@ -904,8 +904,8 @@ class Child_Navigation extends Widget_Base {
 		$this->add_control(
 			'heading_toggle',
 			[
-				'type' => Controls_Manager::HEADING,
-				'label' => esc_html__( 'Toggle breakpoint', 'aw3sm-eep' ),
+				'type'      => Controls_Manager::HEADING,
+				'label'     => esc_html__( 'Toggle breakpoint', 'aw3sm-eep' ),
 				'separator' => 'before',
 			]
 		);
