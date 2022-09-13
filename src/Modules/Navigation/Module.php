@@ -26,7 +26,11 @@ class Module extends Module_Base
         ];
     }
 
-    /**
+	protected function get_dynamic_tags() {
+		return ['Top_Parent_Page'];
+	}
+
+	/**
      * Module name
      *
      * @return string

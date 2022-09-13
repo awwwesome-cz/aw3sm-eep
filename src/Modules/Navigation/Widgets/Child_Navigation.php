@@ -743,7 +743,6 @@ class Child_Navigation extends Widget_Base {
 	 * @return void
 	 */
 	protected function add_title_control(): void {
-		// TODO: create dynamic tag for top parent (only on child-navigation title field)
 		$this->add_control(
 			'title',
 			[
