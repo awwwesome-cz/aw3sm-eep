@@ -122,6 +122,7 @@ class Child_Navigation extends Widget_Base {
 			'child_navigation_source',
 			[
 				'label'   => esc_html__( 'Show sub-pages of', 'aw3sm-eep' ),
+				'separator'    => 'before',
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'all',
 				'options' => $types,
@@ -224,6 +225,8 @@ class Child_Navigation extends Widget_Base {
 				],
 			]
 		);
+		// TODO: border settings of nav (border + shadow) .child-navigation-container
+
 
 		// add Padding
 		$this->add_responsive_control(
@@ -642,8 +645,8 @@ class Child_Navigation extends Widget_Base {
 		// Get the top page id.
 		$top_page = $post_ancestors ? end( $post_ancestors ) : $post->ID;
 
-		$source  = $this->get_settings( 'child_navigation_source' );
-		$depth = $this->get_settings( 'child_navigation_depth' );
+		$source = $this->get_settings( 'child_navigation_source' );
+		$depth  = $this->get_settings( 'child_navigation_depth' );
 
 		if ( $source == 'all' ) {
 			// show all pages
@@ -695,7 +698,7 @@ class Child_Navigation extends Widget_Base {
 	function render_nav( int $depth = 0, int $top_page = null, array $exclude = [] ) {
 		$title            = $this->get_settings_for_display( 'title' );
 		$title_responsive = $this->get_settings_for_display( 'toggle_title' );
-		$_finalContent    = "<nav class='child-navigation-container'>";
+		$_finalContent = "<nav class='child-navigation-container'>";
 		// TODO: outside nav
 		$_finalContent .= "<div class='menu-toggle'>";
 		$_finalContent .= "<div class='title'>$title_responsive</div>";
@@ -744,20 +747,29 @@ class Child_Navigation extends Widget_Base {
 			],
 		);
 
-		$this->add_control(
-			'toggle_title',
+		$this->add_responsive_control(
+			'title_text_align',
 			[
-				'label'     => __( 'Toggle title', 'aw3sm-eep' ),
-				'type'      => Controls_Manager::TEXT,
-				'default'   => __( 'Toggle menu', 'aw3sm-eep' ),
-				'condition' => [
-					"dropdown_breakpoint!" => 'none',
+				'label'     => esc_html__( 'Text Alignment', 'aw3sm-eep' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => [
+					'left'   => [
+						'title' => esc_html__( 'Left', 'aw3sm-eep' ),
+						'icon'  => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => esc_html__( 'Center', 'aw3sm-eep' ),
+						'icon'  => 'eicon-text-align-center',
+					],
+					'right'  => [
+						'title' => esc_html__( 'Right', 'aw3sm-eep' ),
+						'icon'  => 'eicon-text-align-right',
+					],
 				],
-				'dynamic'   => [
-					'active' => true
-				]
-			],
-		);
+				'selectors' => [
+					'{{WRAPPER}} .child-navigation-inner .title' => 'text-align: {{VALUE}}',
+				],
+			] );
 
 		$this->add_icon_control();
 
@@ -885,13 +897,25 @@ class Child_Navigation extends Widget_Base {
 				'label'        => esc_html__( 'Breakpoint', 'aw3sm-eep' ),
 				'type'         => Controls_Manager::SELECT,
 				'default'      => 'tablet',
-				'separator'    => 'after',
 				'options'      => $dropdown_options,
 				'prefix_class' => 'breakpoint-',
 				// 'prefix_class' => 'elementor-nav-menu--dropdown-',
 				'condition'    => [
 					// 'layout!' => 'dropdown',
 				],
+			]
+		);
+
+		$this->add_control(
+			'dropdown_breakpoint_description',
+			[
+				'type'            => Controls_Manager::RAW_HTML,
+				'raw'             => __( 'For preview change view to responsive mode.',
+					'aw3sm-eep' ),
+				'condition'    => [
+					'dropdown_breakpoint!' => 'none',
+				],
+				'content_classes' => 'elementor-descriptor',
 			]
 		);
 	}
@@ -909,6 +933,22 @@ class Child_Navigation extends Widget_Base {
 				'separator' => 'before',
 			]
 		);
+
+		$this->add_control(
+			'toggle_title',
+			[
+				'label'     => __( 'Toggle title', 'aw3sm-eep' ),
+				'type'      => Controls_Manager::TEXT,
+				'default'   => __( 'Toggle menu', 'aw3sm-eep' ),
+				'condition' => [
+					"dropdown_breakpoint!" => 'none',
+				],
+				'dynamic'   => [
+					'active' => true
+				]
+			],
+		);
+
 		$this->start_controls_tabs( 'nav_icon_options' );
 
 		// normal
@@ -1186,7 +1226,7 @@ class Child_Navigation extends Widget_Base {
 					'size' => 10,
 				],
 				'selectors' => [
-					'{{WRAPPER}} .menu-toggle' => 'margin-bottom: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}} .child-navigation-inner.active' => 'margin-top: {{SIZE}}{{UNIT}}',
 				],
 				'condition' => [
 					"dropdown_breakpoint!" => 'none',
