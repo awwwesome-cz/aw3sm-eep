@@ -4,7 +4,7 @@ Donate link: https://awwwesome.cz/
 Tags: Elementor, Elementor Pro, Elementor Extension, Extension
 Requires at least: 5.6
 Tested up to: 6.0.2
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 Requires Elementor at least: 3.6
 Elementor tested up to: 3.7.1
 Requires Elementor Pro at least: 3.6
