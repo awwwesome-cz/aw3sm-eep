@@ -4,6 +4,8 @@ namespace AwwwesomeEEP\Modules\Navigation\Widgets;
 
 use Elementor\Controls_Manager;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
+use Elementor\Group_Control_Border;
+use Elementor\Group_Control_Box_Shadow;
 use Elementor\Icons_Manager;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
@@ -157,18 +159,12 @@ class Child_Navigation extends Widget_Base {
 		// init action
 		do_action( 'aw3sm_eep/widgets/navigation/child_navigation/template/after_section_end', $this );
 
-		$this->start_controls_section(
-			'style_global',
-			[
-				'label' => __( 'Global Display', 'aw3sm-eep' ),
-				'tab'   => Controls_Manager::TAB_STYLE,
-			]
-		);
 
-		// register global styles
-		$this->add_global_style_controls();
+		// register box styles
+		$this->add_box_style_controls();
 
-		$this->end_controls_section();
+		// border style
+		$this->add_border_style_controls();
 
 		// register title style section
 		$this->add_title_style_control();
@@ -208,11 +204,146 @@ class Child_Navigation extends Widget_Base {
 	}
 
 
+	function add_border_style_controls(){
+		$this->start_controls_section(
+			'border',
+			[
+				'label' => esc_html__( 'Border', 'aw3sm-eep' ),
+				'tab' => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->start_controls_tabs( 'tabs_border' );
+
+		$this->start_controls_tab(
+			'tab_border_normal',
+			[
+				'label' => esc_html__( 'Normal', 'aw3sm-eep' ),
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name' => 'border',
+				'selector' => '{{WRAPPER}} .child-navigation-container',
+			]
+		);
+
+
+		$this->add_responsive_control(
+			'border_radius',
+			[
+				'label' => esc_html__( 'Border Radius', 'aw3sm-eep' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .child-navigation-container' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name' => 'box_shadow',
+				'selector' => '{{WRAPPER}} .child-navigation-container',
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'tab_border_hover',
+			[
+				'label' => esc_html__( 'Hover', 'aw3sm-eep' ),
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name' => 'border_hover',
+				'selector' => '{{WRAPPER}} .child-navigation-container:hover',
+			]
+		);
+
+
+		$this->add_responsive_control(
+			'border_radius_hover',
+			[
+				'label' => esc_html__( 'Border Radius', 'aw3sm-eep' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .child-navigation-container:hover' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name' => 'box_shadow_hover',
+				'selector' => '{{WRAPPER}} .child-navigation-container:hover',
+			]
+		);
+
+		$this->add_control(
+			'border_hover_transition',
+			[
+				'label' => esc_html__( 'Transition Duration', 'aw3sm-eep' ),
+				'type' => Controls_Manager::SLIDER,
+				'separator' => 'before',
+				'default' => [
+					'size' => 0.3,
+				],
+				'range' => [
+					'px' => [
+						'max' => 3,
+						'step' => 0.1,
+					],
+				],
+				/*'conditions' => [
+					'relation' => 'or',
+					'terms' => [
+						[
+							'name' => 'background_background',
+							'operator' => '!==',
+							'value' => '',
+						],
+						[
+							'name' => 'border_border',
+							'operator' => '!==',
+							'value' => '',
+						],
+					]
+				],*/
+				'selectors' => [
+					'{{WRAPPER}} .child-navigation-container' => 'transition: border {{SIZE}}s, border-radius {{SIZE}}s, box-shadow {{SIZE}}s',
+				],
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->end_controls_tabs();
+
+		$this->end_controls_section();
+	}
 	/**
 	 * Register style tab
 	 * @return void
 	 */
-	protected function add_global_style_controls() {
+	protected function add_box_style_controls() {
+		$this->start_controls_section(
+			'style_box',
+			[
+				'label' => __( 'Box Display', 'aw3sm-eep' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
 		// add background
 		$this->add_control(
 			'background_color',
@@ -225,8 +356,6 @@ class Child_Navigation extends Widget_Base {
 				],
 			]
 		);
-		// TODO: border settings of nav (border + shadow) .child-navigation-container
-
 
 		// add Padding
 		$this->add_responsive_control(
@@ -241,18 +370,7 @@ class Child_Navigation extends Widget_Base {
 			]
 		);
 
-		// add border Radius
-		$this->add_responsive_control(
-			'border_radius',
-			[
-				'label'      => __( 'Border Radius', 'aw3sm-eep' ),
-				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%' ],
-				'selectors'  => [
-					'{{WRAPPER}} .child-navigation-container' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+		$this->end_controls_section();
 	}
 
 	/**
