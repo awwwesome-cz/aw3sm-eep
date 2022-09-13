@@ -5,6 +5,53 @@
   display: block !important;
 }
 
+body[data-elementor-device-mode=mobile] .breakpoint-mobile .child-navigation-container .menu-toggle {
+  display: flex;
+}
+body[data-elementor-device-mode=mobile] .breakpoint-mobile .child-navigation-container > .child-navigation-inner {
+  display: none;
+}
+
+body[data-elementor-device-mode=tablet] .breakpoint-tablet .child-navigation-container .menu-toggle,
+body[data-elementor-device-mode=mobile] .breakpoint-tablet .child-navigation-container .menu-toggle {
+  display: flex;
+}
+body[data-elementor-device-mode=tablet] .breakpoint-tablet .child-navigation-container > .child-navigation-inner,
+body[data-elementor-device-mode=mobile] .breakpoint-tablet .child-navigation-container > .child-navigation-inner {
+  display: none;
+}
+
+.child-navigation-container .child-navigation-inner.active {
+  display: block !important;
+}
+.child-navigation-container .menu-toggle {
+  display: none;
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+}
+.child-navigation-container .menu-toggle .menu-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--nav-menu-icon-size, 22px);
+}
+.child-navigation-container .menu-toggle .menu-toggle-icon.active .elementor-menu-toggle__icon--open {
+  display: none;
+}
+.child-navigation-container .menu-toggle .menu-toggle-icon:not(.active) .elementor-menu-toggle__icon--close {
+  display: none;
+}
+
+/*
+
+
+.title {
+  display: block;
+}*/
+/*.elementor-nav-menu--dropdown-mobile .elementor-nav-menu--main {
+  display: none;
+}*/
 .child-navigation {
   --padding-top: 10px;
   --padding-right: 20px;
