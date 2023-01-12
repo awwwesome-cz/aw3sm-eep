@@ -19,6 +19,11 @@ nope
 
 ## Preview Widgets
 
+**WooCommerce Sale Badge**
+- Show Sale badge on product page with customize
+- Can apply filter `woocommerce_sale_flash` like on normal WC Sale Flash
+- Support Variable, Group & other product type
+
 **ACF dynamic tag repeater**
 
 ![](preview/widgets/acf-dynamic-tag-repeater.png)

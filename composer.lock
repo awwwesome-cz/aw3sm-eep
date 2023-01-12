@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "70d130305313e4fb6442343eecfdaad2",
+    "content-hash": "353fbdb296c08699de02c42b82d0a68f",
     "packages": [
         {
             "name": "jayjay666/wp-requirements-checker",
-            "version": "1.1.1",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/JayJay666/wp-requirements-checker.git",
-                "reference": "4a9a91278cea204fdaf155a844449f98a656b522"
+                "url": "https://github.com/jakubforman/wp-requirements-checker.git",
+                "reference": "a0565dccb85817cf181b50844d1c8cd394874d8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayJay666/wp-requirements-checker/zipball/4a9a91278cea204fdaf155a844449f98a656b522",
-                "reference": "4a9a91278cea204fdaf155a844449f98a656b522",
+                "url": "https://api.github.com/repos/jakubforman/wp-requirements-checker/zipball/a0565dccb85817cf181b50844d1c8cd394874d8c",
+                "reference": "a0565dccb85817cf181b50844d1c8cd394874d8c",
                 "shasum": ""
             },
             "require": {
@@ -61,10 +61,10 @@
                 "wp"
             ],
             "support": {
-                "issues": "https://github.com/JayJay666/wp-requirements-checker/issues",
-                "source": "https://github.com/JayJay666/wp-requirements-checker/tree/1.1.1"
+                "issues": "https://github.com/jakubforman/wp-requirements-checker/issues",
+                "source": "https://github.com/jakubforman/wp-requirements-checker/tree/1.2.1"
             },
-            "time": "2021-04-29T07:25:15+00:00"
+            "time": "2023-01-12T10:40:32+00:00"
         }
     ],
     "packages-dev": [],
@@ -74,8 +74,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1"
+        "php": ">=7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }

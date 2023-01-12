@@ -24,6 +24,7 @@ class ModuleManager extends Modules_Manager {
 			'ACF',
 			'Navigation',
 			'Section',
+			'WooCommerce',
 		];
 	}
 }
