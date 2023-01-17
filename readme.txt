@@ -2,13 +2,13 @@
 Contributors: jakubjosefforman
 Donate link: https://awwwesome.cz/
 Tags: Elementor, Elementor Pro, Elementor Extension, Extension
-Requires at least: 5.6
+Requires at least: 6.0
 Tested up to: 6.1.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 Requires Elementor at least: 3.6
-Elementor tested up to: 3.10.0
+Elementor tested up to: 3.10.1
 Requires Elementor Pro at least: 3.6
-Elementor Pro tested up to: 3.10.1
+Elementor Pro tested up to: 3.10.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

@@ -4,33 +4,30 @@ namespace AwwwesomeEEP\Modules\WooCommerce;
 
 use AwwwesomeEEP\Modules\Module_Base;
 
-class Module extends Module_Base
-{
+class Module extends Module_Base {
 
-    /**
-     * Widgets
-     *
-     * @return string[]
-     * @throws \Exception
-     */
-    public function get_widgets()
-    {
-        // check if WooCommerce is activated
-        if (is_plugin_active('woocommerce/woocommerce.php')) {
-            return [
-                'Sale_Badge',
-            ];
-        }
-        return [];
-    }
+	public static function is_active() {
+		return class_exists( 'woocommerce' );
+	}
 
-    /**
-     * Module name
-     *
-     * @return string
-     */
-    public function get_name()
-    {
-        return 'Woo Commerce';
-    }
+	/**
+	 * Widgets
+	 *
+	 * @return string[]
+	 * @throws \Exception
+	 */
+	public function get_widgets() {
+		return [
+			'Sale_Badge',
+		];
+	}
+
+	/**
+	 * Module name
+	 *
+	 * @return string
+	 */
+	public function get_name() {
+		return 'Woo Commerce';
+	}
 }

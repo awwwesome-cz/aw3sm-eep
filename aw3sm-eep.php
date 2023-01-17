@@ -2,15 +2,15 @@
 /**
  * Plugin Name: AW3SM Elementor Extension Pack
  * Description: Elementor Extension pack is an extension plugin for Elementor page builder. Adding many widgets.
- * Version: 1.4.2
- * Stable tag: 1.4.2
+ * Version: 1.4.3
+ * Stable tag: 1.4.3
  * Requires PHP: 7.4
  * Tested up to: 6.1.1
- * Requires at least: 5.6
+ * Requires at least: 6.0
  * Requires Elementor at least: 3.6
- * Elementor tested up to: 3.10.0
+ * Elementor tested up to: 3.10.1
  * Requires Elementor Pro at least: 3.6
- * Elementor Pro tested up to: 3.10.1
+ * Elementor Pro tested up to: 3.10.2
  * Plugin URI: https://awwwesome.cz/eep
  * Author: awwwesome.cz
  * Author URI: https://awwwesome.cz

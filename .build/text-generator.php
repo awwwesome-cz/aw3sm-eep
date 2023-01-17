@@ -27,6 +27,7 @@ $replacements_txt = [
     "/^Elementor tested up to: [0-9.]*\n/m"      => "Elementor tested up to: $ini[elementor_tested_up_to]\n",
     "/^Requires Elementor Pro at least: [0-9.]*\n/m" => "Requires Elementor Pro at least: $ini[elementor_pro_requires_at_least]\n",
     "/^Elementor Pro tested up to: [0-9.]*\n/m"      => "Elementor Pro tested up to: $ini[elementor_pro_tested_up_to]\n",
+	// TODO: replace WooCommerce texts
 ];
 
 // Replace content in TXT file
