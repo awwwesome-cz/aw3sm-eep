@@ -43,5 +43,14 @@ None
 - elementor-swiper/widgets/swiper/autoplay/before_section_end
 - elementor-swiper/widgets/swiper/autoplay/after_section_end
 
+### TablePress Table
+
+- aw3sm_eep/widgets/tablepress/table/before_section_start
+- aw3sm_eep/widgets/tablepress/table/section_start
+- aw3sm_eep/widgets/tablepress/table/before_section_end
+- aw3sm_eep/widgets/tablepress/table/after_section_end
+
+- aw3sm_eep/widgets/tablepress/style/before_section_start
+- aw3sm_eep/widgets/tablepress/style/after_section_end
 
 
