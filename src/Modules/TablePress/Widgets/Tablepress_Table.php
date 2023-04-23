@@ -251,7 +251,7 @@ class Tablepress_Table extends Widget_Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'     => 'table_border',
-				'selector' => '{{WRAPPER}} table',
+				'selector' => '{{WRAPPER}} table td, {{WRAPPER}} table th',
 			]
 		);
 
@@ -262,9 +262,36 @@ class Tablepress_Table extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em', 'custom' ],
 				'selectors'  => [
-					'{{WRAPPER}} table' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};
+					'{{WRAPPER}} table'                                               => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};
 					border-collapse: inherit; 
 					overflow: hidden;',
+
+					// top, header
+					'{{WRAPPER}} table tr:first-of-type th:first-child'               => 'border-top-left-radius: {{TOP}}{{UNIT}}',
+					'{{WRAPPER}} table tr:first-of-type td:first-child'               => 'border-top-left-radius: {{TOP}}{{UNIT}}',
+					'{{WRAPPER}} table thead tr:first-of-type th:first-child'         => 'border-bottom-left-radius: 0',
+					'{{WRAPPER}} table thead tr:first-of-type td:first-child'         => 'border-bottom-left-radius: 0',
+					'{{WRAPPER}} table thead + tbody tr:first-of-type td:first-child' => 'border-top-left-radius: 0',
+					'{{WRAPPER}} table tbody + tfoot tr:first-of-type th:first-child' => 'border-top-left-radius: 0',
+
+					'{{WRAPPER}} table tr:first-of-type th:last-child'                  => 'border-top-right-radius: {{RIGHT}}{{UNIT}}',
+					'{{WRAPPER}} table tr:first-of-type td:last-child'                  => 'border-top-right-radius: {{RIGHT}}{{UNIT}}',
+					'{{WRAPPER}} table thead tr:first-of-type th:last-child'            => 'border-bottom-right-radius: 0',
+					'{{WRAPPER}} table thead tr:first-of-type td:last-child'            => 'border-bottom-right-radius: 0',
+					'{{WRAPPER}} table thead + tbody tr:first-of-type td:last-child'    => 'border-top-right-radius: 0',
+					'{{WRAPPER}} table tbody + tfoot tr:first-of-type th:last-child'    => 'border-top-right-radius: 0',
+
+					// bottom, footer
+					'{{WRAPPER}} table tr:last-of-type th:first-child'                  => 'border-bottom-left-radius: {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} table tr:last-of-type td:first-child'                  => 'border-bottom-left-radius: {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} table:not(tfoot) tbody tr:last-of-type td:first-child' => 'border-bottom-left-radius: {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} table:has(tfoot) tbody tr:last-of-type td:first-child' => 'border-bottom-left-radius: 0',
+
+					'{{WRAPPER}} table tr:last-of-type th:last-child'                  => 'border-bottom-right-radius: {{BOTTOM}}{{UNIT}}',
+					'{{WRAPPER}} table tr:last-of-type td:last-child'                  => 'border-bottom-right-radius: {{BOTTOM}}{{UNIT}}',
+					'{{WRAPPER}} table:not(tfoot) tbody tr:last-of-type td:last-child' => 'border-bottom-right-radius: {{BOTTOM}}{{UNIT}}',
+					'{{WRAPPER}} table:has(tfoot) tbody tr:last-of-type td:last-child' => 'border-bottom-right-radius: 0',
+
 				],
 			]
 		);
@@ -344,6 +371,17 @@ class Tablepress_Table extends Widget_Base {
 			]
 		);
 
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'      => 'table_head_border',
+				'selector'  => '{{WRAPPER}} table thead th',
+				'condition' => [
+					'table_head' => 'yes',
+				],
+			]
+		);
+
 		$this->add_control(
 			'table_head_padding',
 			[
@@ -353,6 +391,7 @@ class Tablepress_Table extends Widget_Base {
 				'selectors'  => [
 					'{{WRAPPER}} thead th' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				],
+				'separator'  => 'before',
 				'condition'  => [
 					'table_head' => 'yes',
 				],
@@ -424,6 +463,17 @@ class Tablepress_Table extends Widget_Base {
 			]
 		);
 
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'      => 'table_foot_border',
+				'selector'  => '{{WRAPPER}} table tfoot th',
+				'condition' => [
+					'table_foot' => 'yes',
+				],
+			]
+		);
+
 		$this->add_control(
 			'table_foot_padding',
 			[
@@ -433,6 +483,7 @@ class Tablepress_Table extends Widget_Base {
 				'selectors'  => [
 					'{{WRAPPER}} tfoot th' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				],
+				'separator'  => 'before',
 				'condition'  => [
 					'table_foot' => 'yes',
 				],
@@ -549,6 +600,15 @@ class Tablepress_Table extends Widget_Base {
 		);
 		$this->end_controls_tab();
 		$this->end_controls_tabs();
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'      => 'table_row_border',
+				'selector'  => '{{WRAPPER}} table tbody td',
+				'separator' => 'before',
+			]
+		);
 
 		$this->add_control(
 			'row_padding',
