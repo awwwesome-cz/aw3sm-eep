@@ -28,6 +28,9 @@ nope
 
 ![](preview/widgets/acf-dynamic-tag-repeater.png)
 
+**TablePress**
+![](preview/widgets/tablepress.png)
+
 **ACF image repeater**
 
 ![](preview/widgets/acf-image-repeater.png)
