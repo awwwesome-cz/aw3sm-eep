@@ -18,8 +18,12 @@ abstract class Module_Base extends Module {
 		// Initialize all documents
 		add_action( 'elementor/documents/register', [ $this, 'register_documents' ] );
 
-		// Init extension
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'init_extends' ] );
+		// Init extension base on Elementor version
+		if ( version_compare( ELEMENTOR_VERSION, "3.5.0", '<' ) ) {
+			add_action( 'elementor/widgets/widgets_registered', [ $this, 'init_extends' ] );
+		} else {
+			add_action( 'elementor/widgets/register', [ $this, 'init_extends' ] );
+		}
 	}
 
 	/**
@@ -140,8 +144,8 @@ abstract class Module_Base extends Module {
 	public function init_extends() {
 		if ( ! empty( $this->get_extends() ) ) {
 			foreach ( $this->get_extends() as $extend ) {
-                $class_name = $this->get_reflection()->getNamespaceName() . '\\Extend\\' . $extend;
-                new $class_name();
+				$class_name = $this->get_reflection()->getNamespaceName() . '\\Extend\\' . $extend;
+				new $class_name();
 			}
 		}
 	}

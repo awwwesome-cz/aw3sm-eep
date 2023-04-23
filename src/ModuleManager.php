@@ -25,6 +25,7 @@ class ModuleManager extends Modules_Manager {
 			'Navigation',
 			'Section',
 			'WooCommerce',
+			'TablePress',
 		];
 	}
 }
