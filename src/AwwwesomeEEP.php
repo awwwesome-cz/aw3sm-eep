@@ -73,8 +73,8 @@ class AwwwesomeEEP {
 	 */
 	private function check_update() {
 		$updater = new PDUpdater( dirname( __DIR__ ) . "/aw3sm-eep.php" );
-		$updater->set_username( 'awwwesome-cz' );
-		$updater->set_repository( 'aw3sm-eep' );
+		$updater->set_github_username( 'awwwesome-cz' );
+		$updater->set_github_repository( 'aw3sm-eep' );
 		$updater->set_tag_name_prefix( 'v' );
 		//$updater->authorize( get_option( 'my_licence_key' ) );
 		$updater->initialize();

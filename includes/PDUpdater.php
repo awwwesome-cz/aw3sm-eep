@@ -3,12 +3,42 @@
 namespace AwwwesomeEEP\Includes;
 
 class PDUpdater {
-	private $file;
-	private $plugin;
-	private $basename;
-	private $active;
-	private $username;
-	private $repository;
+	/**
+	 * Hold plugin Absolute PATH
+	 * @var string
+	 */
+	private string $plugin_path;
+
+	/**
+	 * Hold plugin DATA (array of plugin data)
+	 * @var array
+	 */
+	private array $plugin;
+
+	/**
+	 * Hold base name like your-plugin/your-plugin.php
+	 * @var string
+	 */
+	private string $plugin_basename;
+
+	/**
+	 * Check if plugin activated
+	 * @var bool
+	 */
+	private bool $is_active;
+
+	/**
+	 * GitHub Username
+	 * @var string
+	 */
+	private string $github_username;
+
+	/**
+	 * GitHub Repository
+	 * @var string
+	 */
+	private string $github_repository;
+
 	/**
 	 * Authorize TOKEN
 	 * @var string|null
@@ -17,30 +47,51 @@ class PDUpdater {
 	private $github_response;
 	private string $tag_name_prefix;
 
-	public function __construct( $file ) {
-		$this->file = $file;
+	/**
+	 * @param string $plugin Absolute path to plugin main file. Example: /var/.../plugins/your-plugin/your-plugin.php
+	 */
+	public function __construct( string $plugin ) {
+		$this->plugin_path = $plugin;
 		add_action( 'admin_init', [ $this, 'set_plugin_properties' ] );
-
-		// return $this;
 	}
 
+	/**
+	 * Init default plugin properties from WP
+	 *
+	 * @return void
+	 */
 	public function set_plugin_properties() {
-		$this->plugin   = get_plugin_data( $this->file );
-		$this->basename = plugin_basename( $this->file );
-		$this->active   = is_plugin_active( $this->basename );
+		$this->plugin          = get_plugin_data( $this->plugin_path );
+		$this->plugin_basename = plugin_basename( $this->plugin_path );
+		$this->is_active       = is_plugin_active( $this->plugin_basename );
 	}
 
-	public function set_username( $username ) {
-		$this->username = $username;
+	/**
+	 * Set GitHub username
+	 *
+	 * @param $github_username string GitHub Username
+	 *
+	 * @return void
+	 */
+	public function set_github_username( string $github_username ) {
+		$this->github_username = $github_username;
 	}
 
-	public function set_repository( $repository ) {
-		$this->repository = $repository;
+	/**
+	 * Set GitHub repository
+	 *
+	 * @param string $github_repository
+	 *
+	 * @return void
+	 */
+	public function set_github_repository( string $github_repository ) {
+		$this->github_repository = $github_repository;
 	}
 
 	/**
 	 * Set tag name prefix
 	 *
+	 * If you have release tag like v1.2.3 you need set tag prefix 'v'
 	 *
 	 * @param string $tag_name_prefix
 	 */
@@ -54,12 +105,12 @@ class PDUpdater {
 
 	private function get_repository_info() {
 		if ( is_null( $this->github_response ) ) {
-			$request_uri = sprintf( 'https://api.github.com/repos/%s/%s/releases', $this->username, $this->repository );
+			$request_uri = sprintf( 'https://api.github.com/repos/%s/%s/releases', $this->github_username, $this->github_repository );
 
 			// Switch to HTTP Basic Authentication for GitHub API v3
 			$curl = curl_init();
 
-			$headers = [ "User-Agent: PDUpdater/1.2.3" ];
+			$headers = [ "User-Agent: PDUpdater/1.2.3" ]; // TODO: version
 			if ( $this->authorize_token ) {
 				$headers[] = "Authorization: token " . $this->authorize_token;
 			}
@@ -96,23 +147,37 @@ class PDUpdater {
 		}
 	}
 
+	/**
+	 * Run Initialize process
+	 *
+	 * @return void
+	 */
 	public function initialize() {
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_update' ], 10, 1 );
 
+		// overide default popup from WordPress API to GitHut API
 		add_filter( 'plugins_api', [ $this, 'plugin_popup' ], 10, 3 );
+		// run code after install complete
 		add_filter( 'upgrader_post_install', [ $this, 'after_install' ], 10, 3 );
 	}
 
+	/**
+	 * Check updates from GitHub API
+	 *
+	 * @param $transient
+	 *
+	 * @return mixed
+	 */
 	public function check_update( $transient ) {
 
 		if ( property_exists( $transient, 'checked' ) ) {
-			if ( $checked = $transient->checked ) {
+			if ( $transient->checked && isset( $transient->checked[ $this->plugin_basename ] ) ) {
 
 				$this->get_repository_info();
 
 				$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
 
-				$out_of_date = version_compare( $new_version, $checked[ $this->basename ], 'gt' );
+				$out_of_date = version_compare( $new_version, $transient->checked[ $this->plugin_basename ], 'gt' );
 
 				if ( $out_of_date ) {
 					foreach ( $this->github_response['assets'] as $asset ) {
@@ -123,7 +188,7 @@ class PDUpdater {
 					}
 
 					// $new_files = $this->github_response['zipball_url'];
-					$slug = current( explode( '/', $this->basename ) );
+					$slug = current( explode( '/', $this->plugin_basename ) );
 
 					$plugin = [
 						'url'         => $this->plugin['PluginURI'],
@@ -133,7 +198,7 @@ class PDUpdater {
 						'new_version' => $new_version
 					];
 
-					$transient->response[ $this->basename ] = (object) $plugin;
+					$transient->response[ $this->plugin_basename ] = (object) $plugin;
 				}
 			}
 		}
@@ -141,12 +206,23 @@ class PDUpdater {
 		return $transient;
 	}
 
+	/**
+	 * Modify default WP PopUp from WP API
+	 *
+	 * - Using GitHub API
+	 *
+	 * @param $_data
+	 * @param $_action
+	 * @param $_args
+	 *
+	 * @return mixed|\stdClass
+	 */
 	public function plugin_popup( $_data, $_action, $_args ) {
 		if ( 'plugin_information' !== $_action ) {
 			return $_data;
 		}
 
-		if ( ! isset( $_args->slug ) || ( $_args->slug !== current( explode( '/', $this->basename ) ) ) ) {
+		if ( ! isset( $_args->slug ) || ( $_args->slug !== current( explode( '/', $this->plugin_basename ) ) ) ) {
 			return $_data;
 		}
 
@@ -162,7 +238,7 @@ class PDUpdater {
 
 		$api_request_transient         = new \stdClass();
 		$api_request_transient->name   = $this->plugin['Name'];
-		$api_request_transient->slug   = $this->basename;
+		$api_request_transient->slug   = $this->plugin_basename;
 		$api_request_transient->author = $this->plugin['AuthorName'];
 		// $api_request_transient->author_profile = $this->plugin['AuthorURI'];
 		$api_request_transient->homepage = $this->plugin['PluginURI'];  // TODO: get from API
@@ -190,15 +266,26 @@ class PDUpdater {
 		return $_data;
 	}
 
+	/**
+	 * Run code after install complete
+	 *
+	 * - Reactivate plugin
+	 *
+	 * @param $response
+	 * @param $hook_extra
+	 * @param $result
+	 *
+	 * @return mixed
+	 */
 	public function after_install( $response, $hook_extra, $result ) {
 		global $wp_filesystem;
 
-		$install_directory = plugin_dir_path( $this->file );
+		$install_directory = plugin_dir_path( $this->plugin_path );
 		$wp_filesystem->move( $result['destination'], $install_directory );
 		$result['destination'] = $install_directory;
 
-		if ( $this->active ) {
-			activate_plugin( $this->basename );
+		if ( $this->is_active ) {
+			activate_plugin( $this->plugin_basename );
 		}
 
 		return $result;
