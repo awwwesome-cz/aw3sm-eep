@@ -5,39 +5,39 @@ namespace AwwwesomeEEP\Includes;
 class PDUpdater {
 	/**
 	 * Hold plugin Absolute PATH
-	 * @var string
+	 * @var string|null
 	 */
-	private string $plugin_path;
+	private ?string $plugin_path = null;
 
 	/**
 	 * Hold plugin DATA (array of plugin data)
 	 * @var array
 	 */
-	private array $plugin;
+	private array $plugin = [];
 
 	/**
 	 * Hold base name like your-plugin/your-plugin.php
-	 * @var string
+	 * @var string|null
 	 */
-	private string $plugin_basename;
+	private ?string $plugin_basename = null;
 
 	/**
 	 * Check if plugin activated
 	 * @var bool
 	 */
-	private bool $is_active;
+	private bool $is_active = false;
 
 	/**
 	 * GitHub Username
-	 * @var string
+	 * @var string|null
 	 */
-	private string $github_username;
+	private ?string $github_username = null;
 
 	/**
 	 * GitHub Repository
-	 * @var string
+	 * @var string|null
 	 */
-	private string $github_repository;
+	private ?string $github_repository = null;
 
 	/**
 	 * Authorize TOKEN
