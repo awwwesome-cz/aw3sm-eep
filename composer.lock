@@ -4,69 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "353fbdb296c08699de02c42b82d0a68f",
-    "packages": [
-        {
-            "name": "jayjay666/wp-requirements-checker",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jakubforman/wp-requirements-checker.git",
-                "reference": "a0565dccb85817cf181b50844d1c8cd394874d8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jakubforman/wp-requirements-checker/zipball/a0565dccb85817cf181b50844d1c8cd394874d8c",
-                "reference": "a0565dccb85817cf181b50844d1c8cd394874d8c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "lipemat/wp-unit": "^1.12",
-                "phpunit/phpunit": "^7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "jayjay666\\WPRequirementsChecker\\": "src/",
-                    "jayjay666\\WPRequirementsChecker\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Jakub Josef Forman",
-                    "email": "dev@jakubforman.com",
-                    "homepage": "https://jakubforman.eu",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Utility for WordPress plugin developers to check requirements. Lightweight library class for validation PHP version, PHP extensions, plugins and theirs versions in Wordpress Plugins.",
-            "homepage": "https://github.com/jayjay666/wp-requirements-checker",
-            "keywords": [
-                "WP Plugin",
-                "WordPress Plugin Validator",
-                "WordPress Plugin Validator Requirements",
-                "WordPress Plugin Validator Requirements Checker",
-                "WordPress Requirements",
-                "WordPress Requirements Checker",
-                "wordpress",
-                "wordpress plugin",
-                "wordpress plugin development",
-                "wp"
-            ],
-            "support": {
-                "issues": "https://github.com/jakubforman/wp-requirements-checker/issues",
-                "source": "https://github.com/jakubforman/wp-requirements-checker/tree/1.2.1"
-            },
-            "time": "2023-01-12T10:40:32+00:00"
-        }
-    ],
+    "content-hash": "72c81d646fa5b2bcc813e3de93145b24",
+    "packages": [],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
@@ -77,5 +16,5 @@
         "php": ">=7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.0.0"
 }

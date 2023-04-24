@@ -1,5 +1,5 @@
 {
-  "name": "jayjay666/aw3sm-eep",
+  "name": "awwwesome-cz/aw3sm-eep",
   "type": "wordpress-plugin",
   "description": "Extension pack for Elementor Pro",
   "homepage": "https://github.com/awwwesome-cz/aw3sm-eep",
@@ -36,8 +36,7 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
-    "jayjay666/wp-requirements-checker": "^1.2.1"
+    "php": ">=7.4"
   },
   "autoload": {
     "psr-4": {

@@ -37,4 +37,4 @@ if (is_readable(__DIR__ . '/lib/autoload.php')) {
  */
 
 $plugin = new AwwwesomeEEP();
-$plugin->run();
+$plugin->boot();

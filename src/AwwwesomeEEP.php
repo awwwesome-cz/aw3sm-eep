@@ -2,9 +2,9 @@
 
 namespace AwwwesomeEEP;
 
+use AwwwesomeEEP\Includes\Core\Plugin;
 use AwwwesomeEEP\Includes\i18n;
 use AwwwesomeEEP\Includes\PDUpdater;
-use AwwwesomeEEP\Includes\RequirementValidator;
 use AwwwesomeEEP\Includes\Loader;
 
 /**
@@ -14,19 +14,25 @@ use AwwwesomeEEP\Includes\Loader;
  *
  * @package AwwwesomeEEP
  */
-class AwwwesomeEEP {
+class AwwwesomeEEP extends Plugin {
+	protected array $need_activated = [
+		'elementor/elementor.php'         => '3.6',
+		'elementor-pro/elementor-pro.php' => '3.6',
+	];
+
+	protected function get_path(): string {
+		return dirname( __DIR__ ) . "/aw3sm-eep.php";
+	}
 
 	/**
 	 * Constructor
 	 *
-	 * Loadiging default needs files, class and others
+	 * Lodging default needs files, class and others
 	 *
 	 * @access  public
 	 * @since   1.0.0
 	 */
 	public function __construct() {
-		RequirementValidator::requirementsValidate();// TODO: fix header error
-		// TODO: need Elementor Pro
 		$this->i18n();
 		// Load Module Manager
 		//
@@ -59,7 +65,11 @@ class AwwwesomeEEP {
 	 *
 	 * @since    1.0.0
 	 */
-	public function run() {
+	public function boot() {
+		// Run original boot
+		parent::boot();
+
+		// Custom actions
 		Loader::run();
 		add_action( 'elementor/init', [ $this, 'on_elementor_init' ] );
 	}
