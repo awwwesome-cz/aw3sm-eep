@@ -39,6 +39,9 @@
     "php": ">=7.4"
   },
   "autoload": {
+    "files": [
+      "src/Admin/admin.menu.php"
+    ],
     "psr-4": {
       "AwwwesomeEEP\\": "src/",
       "AwwwesomeEEP\\Includes\\": "includes/"

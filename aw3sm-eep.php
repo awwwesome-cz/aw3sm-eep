@@ -26,6 +26,8 @@ if (is_readable(__DIR__ . '/lib/autoload.php')) {
     require_once __DIR__ . '/lib/autoload.php';
 }
 
+const AW3SM_EEP_VERSION = "1.5.1"; // TODO: add to auto replace in .build folder!!!
+
 /**
  * Begins execution of the plugin.
  *
