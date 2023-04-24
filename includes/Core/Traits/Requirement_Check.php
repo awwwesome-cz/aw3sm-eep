@@ -9,7 +9,7 @@ trait Requirement_Check {
 	 *
 	 * @var bool
 	 */
-	protected bool $deactivate_automatically = true; // TODO: setter, default true
+	protected bool $deactivate_automatically = true;
 
 	/**
 	 * Text domain for language translations

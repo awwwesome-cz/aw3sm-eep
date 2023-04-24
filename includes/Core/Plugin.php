@@ -82,7 +82,6 @@ abstract class Plugin {
 	function init() {
 		$this->plugin_data = get_plugin_data( $this->get_path());
 		$this->basename = plugin_basename($this->get_path());
-		// $this->plugin_data = get_plugin_data( WP_PLUGIN_DIR . "/" . $this->plugin_name );
 	}
 
 	/**
