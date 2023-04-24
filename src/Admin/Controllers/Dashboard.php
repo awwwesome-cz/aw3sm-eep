@@ -12,8 +12,11 @@ class Dashboard extends Admin_Controller {
 	 * @return void
 	 */
 	function index() {
+		$tab = $_GET['tab'] ?? null;
+
 		echo $this->view( "dashboard.index", [
 			"version" => AwwwesomeEEP::version(),
+			"tab" => $tab
 		] );
 	}
 }
