@@ -5,10 +5,12 @@
     <!-- Here are our tabs -->
     <nav class="nav-tab-wrapper">
         <a href="?page=aw3sm-eep-dashboard" class="nav-tab <?php if ( $tab === null ): ?>nav-tab-active<?php endif; ?>">
-            Widgets
+            Widgety
         </a>
-        <a href="?page=aw3sm-eep-dashboard&tab=settings"
-           class="nav-tab <?php if ( $tab === 'settings' ): ?>nav-tab-active<?php endif; ?>">Settings</a>
+        <!--<a href="?page=aw3sm-eep-dashboard&tab=settings"
+           class="nav-tab <?php if ( $tab === 'settings' ): ?>nav-tab-active<?php endif; ?>">Nastavení</a>-->
+        <a href="?page=aw3sm-eep-dashboard&tab=versions"
+           class="nav-tab <?php if ( $tab === 'versions' ): ?>nav-tab-active<?php endif; ?>">Kontrola verzí</a>
         <a href="?page=aw3sm-eep-dashboard&tab=credits"
            class="nav-tab <?php if ( $tab === 'credits' ): ?>nav-tab-active<?php endif; ?>">Credits</a>
     </nav>
@@ -18,8 +20,8 @@
 			case 'credits':
 				require_once __DIR__ . "/credits.php";
 				break;
-			case 'tools':
-				echo 'Tools';
+			case 'versions':
+                require_once __DIR__ . "/versions.php";
 				break;
 			default:
 				require_once __DIR__ . "/widgets.php";
