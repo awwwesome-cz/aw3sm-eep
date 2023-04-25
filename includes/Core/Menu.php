@@ -4,7 +4,7 @@ namespace AwwwesomeEEP\Includes\Core;
 
 use AwwwesomeEEP\AwwwesomeEEP;
 
-class Admin_Menu {
+class Menu {
 	/**
 	 * Hold all pages for register
 	 *

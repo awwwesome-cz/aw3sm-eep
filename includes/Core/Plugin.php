@@ -87,8 +87,8 @@ abstract class Plugin {
 		$this->prefix = basename( $this->get_path(), '.php' );
 
 		// set menu before admin INIT
-		Admin_Menu::slug_prefix( $this->prefix );
-		Admin_Menu::init_menu_pages();
+		Menu::slug_prefix( $this->prefix );
+		Menu::init_menu_pages();
 	}
 
 	function init() {
