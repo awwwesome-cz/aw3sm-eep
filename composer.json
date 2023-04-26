@@ -40,7 +40,8 @@
   },
   "autoload": {
     "files": [
-      "src/Admin/admin.menu.php"
+      "src/Admin/admin.menu.php",
+      "src/Admin/admin.settings.php"
     ],
     "psr-4": {
       "AwwwesomeEEP\\": "src/",

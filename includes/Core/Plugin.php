@@ -89,12 +89,15 @@ abstract class Plugin {
 		// set menu before admin INIT
 		Menu::slug_prefix( $this->prefix );
 		Menu::init_menu_pages();
+
 	}
 
 	function init() {
 		self::$plugin_data = get_plugin_data( $this->get_path() );
 		$this->basename    = plugin_basename( $this->get_path() );
 
+		// init settings
+		Settings::instance()->init();
 	}
 
 	/**
