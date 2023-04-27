@@ -215,16 +215,19 @@ class PDUpdater {
 		switch ( $beta_level ) {
 			case 'dev':
 				$response = array_filter( $response, function ( $data ) {
+					// TODO: check prefix
 					return preg_match( "/^v[0-9.]*-dev[0-9.]*?$/", $data['tag_name'] );
 				} );
 				break;
 			case 'alpha':
 				$response = array_filter( $response, function ( $data ) {
+					// TODO: check prefix
 					return preg_match( "/^v[0-9.]*-alpha[0-9.]*?$/", $data['tag_name'] );
 				} );
 				break;
 			case 'beta':
 				$response = array_filter( $response, function ( $data ) {
+					// TODO: check prefix
 					return preg_match( "/^v[0-9.]*-beta[0-9.]*?$/", $data['tag_name'] );
 				} );
 				break;
