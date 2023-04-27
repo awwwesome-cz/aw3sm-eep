@@ -50,7 +50,8 @@ class Settings {
 			return;
 		}
 
-		throw new BadMethodCallException( "Method $method does not exist." );
+		// other methods
+		return call_user_func_array( [ self::class, $method ], $arguments );
 	}
 
 	public function __call( $method, $arguments ) {
@@ -108,7 +109,17 @@ class Settings {
 			'callback' => $callback,
 			'page'     => $page,
 		];
+	}
 
+	/**
+	 * Render fields
+	 *
+	 * @param $option_group
+	 *
+	 * @return void
+	 */
+	protected static function fields( $option_group ) {
+		settings_fields( $option_group );
 	}
 
 	/**
