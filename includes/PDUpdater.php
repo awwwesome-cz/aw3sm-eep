@@ -105,7 +105,8 @@ class PDUpdater {
 
 	private function get_repository_info() {
 		if ( is_null( $this->github_response ) ) {
-			$request_uri = sprintf( 'https://api.github.com/repos/%s/%s/releases', $this->github_username, $this->github_repository );
+			$request_uri = sprintf( 'https://api.github.com/repos/%s/%s/releases', $this->github_username,
+				$this->github_repository );
 
 			// Switch to HTTP Basic Authentication for GitHub API v3
 			$curl = curl_init();
@@ -177,6 +178,13 @@ class PDUpdater {
 
 				$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
 
+				// Pre-release not allowed by default
+				if ( $this->protect_prerelease( 'disabled' ) ) {
+					return $transient;
+				}
+
+
+				// get version
 				$out_of_date = version_compare( $new_version, $transient->checked[ $this->plugin_basename ], 'gt' );
 
 				if ( $out_of_date ) {
@@ -289,5 +297,26 @@ class PDUpdater {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Protecting pre-releases
+	 *
+	 * If any pre-release available, return true
+	 *
+	 * Using Setting option from plugin
+	 *
+	 * @param $beta_program_level string Beta program level
+	 *
+	 * @return bool
+	 */
+	protected function protect_prerelease( string $beta_program_level ): bool {
+		if ( isset( $this->github_response['prerelease'] )
+		     && $this->github_response['prerelease']
+		     && $beta_program_level == 'disabled' ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
