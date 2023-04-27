@@ -41,3 +41,19 @@ Settings::add_field( 'beta_program', "Beta Tester", function () {
 },
 	EEP_SETTINGS_GROUP,
 	EEP_BETA_SECTION );
+
+Settings::add_field( 'github_token', "GitHub Token", function () {
+	$options = Settings::get_option( EEP_SETTINGS_OPTION );
+	$option  = $options['github_token'] ?? null;
+	?>
+    <input name="<?= EEP_SETTINGS_OPTION ?>[github_token]" value="<?=$option?>">
+
+    <p class="description">
+        <span style="color: red">Upozornění: Nedoporučujeme aktualizovat beta verze na produkčních webech.</span>
+    </p>
+	<?php
+},
+	EEP_SETTINGS_GROUP,
+	EEP_BETA_SECTION );
+
+// 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

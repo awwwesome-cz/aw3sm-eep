@@ -86,6 +86,8 @@ class AwwwesomeEEP extends Plugin {
 		$updater->set_github_username( 'awwwesome-cz' );
 		$updater->set_github_repository( 'aw3sm-eep' );
 		$updater->set_tag_name_prefix( 'v' );
+		// TODO: only for testing!
+		 $updater->authorize('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');
 		//$updater->authorize( get_option( 'my_licence_key' ) );
 		$updater->initialize();
 	}

@@ -2,6 +2,8 @@
 
 namespace AwwwesomeEEP\Includes;
 
+use AwwwesomeEEP\Includes\Core\Settings;
+
 class PDUpdater {
 	/**
 	 * Hold plugin Absolute PATH
@@ -44,6 +46,9 @@ class PDUpdater {
 	 * @var string|null
 	 */
 	private ?string $authorize_token = null;
+	/**
+	 * @deprecated
+	 */
 	private $github_response;
 	private string $tag_name_prefix;
 
@@ -129,8 +134,16 @@ class PDUpdater {
 			] );
 
 			$response = curl_exec( $curl );
+			$info     = curl_getinfo( $curl );
 
 			curl_close( $curl );
+
+			// check validity (!403)
+			if ( $info['http_code'] != 200 ) {
+				error_log( $response, true );
+
+				return;
+			}
 
 			$response = json_decode( $response, true );
 
@@ -145,6 +158,88 @@ class PDUpdater {
 			}*/
 
 			$this->github_response = $response;
+		}
+	}
+
+	/**
+	 * Get info about the latest version by beta level
+	 *
+	 * @param $beta_level
+	 *
+	 * @return false|mixed|string|null
+	 */
+	private function get_latest_version( $beta_level ) {
+		$request_uri = sprintf( 'https://api.github.com/repos/%s/%s/releases', $this->github_username,
+			$this->github_repository );
+
+		// Switch to HTTP Basic Authentication for GitHub API v3
+		$curl = curl_init();
+
+		$headers = [ "User-Agent: PDUpdater/1.2.3" ]; // TODO: version
+		if ( $this->authorize_token ) {
+			$headers[] = "Authorization: token " . $this->authorize_token;
+		}
+
+		curl_setopt_array( $curl, [
+			CURLOPT_URL            => $request_uri,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING       => "",
+			CURLOPT_MAXREDIRS      => 10,
+			CURLOPT_TIMEOUT        => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST  => "GET",
+			CURLOPT_HTTPHEADER     => $headers
+		] );
+
+		$response = curl_exec( $curl );
+		$info     = curl_getinfo( $curl );
+
+		curl_close( $curl );
+
+		// check validity (!403)
+		if ( $info['http_code'] != 200 ) {
+			error_log( $response, true );
+
+			return null;
+		}
+
+		$response = json_decode( $response, true );
+
+		// if not array, nothing to do
+		if ( ! is_array( $response ) ) {
+			return null;
+		}
+
+		// filter array by beta_level and get latest
+		switch ( $beta_level ) {
+			case 'dev':
+				$response = array_filter( $response, function ( $data ) {
+					return preg_match( "/^v[0-9.]*-dev[0-9.]*?$/", $data['tag_name'] );
+				} );
+				break;
+			case 'alpha':
+				$response = array_filter( $response, function ( $data ) {
+					return preg_match( "/^v[0-9.]*-alpha[0-9.]*?$/", $data['tag_name'] );
+				} );
+				break;
+			case 'beta':
+				$response = array_filter( $response, function ( $data ) {
+					return preg_match( "/^v[0-9.]*-beta[0-9.]*?$/", $data['tag_name'] );
+				} );
+				break;
+			default:
+				// Default disable pre-releases
+				$response = array_filter( $response, function ( $data ) {
+					return $data['prerelease'] == true;
+				} );
+		}
+
+		// get latest from array
+		if ( is_array( $response ) ) {
+			return current( $response );
+		} else {
+			return null;
 		}
 	}
 
@@ -174,21 +269,19 @@ class PDUpdater {
 		if ( property_exists( $transient, 'checked' ) ) {
 			if ( $transient->checked && isset( $transient->checked[ $this->plugin_basename ] ) ) {
 
-				$this->get_repository_info();
+				$options = Settings::get_option( EEP_SETTINGS_OPTION );
+				$level   = $options['beta_program'] ?? 'disabled';
 
-				$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
+				$response = $this->get_latest_version( $level );
 
-				// Pre-release not allowed by default
-				if ( $this->protect_prerelease( 'disabled' ) ) {
-					return $transient;
-				}
-
+				// clear name
+				$new_version = $this->remove_prefix( $response['tag_name'] );
 
 				// get version
 				$out_of_date = version_compare( $new_version, $transient->checked[ $this->plugin_basename ], 'gt' );
 
 				if ( $out_of_date ) {
-					foreach ( $this->github_response['assets'] as $asset ) {
+					foreach ( $response['assets'] as $asset ) {
 						if ( $asset['content_type'] == 'application/zip' && $asset['name'] == "aw3sm-eep-$new_version.zip" ) {
 							$new_files = $asset['browser_download_url'];
 							break;
@@ -234,10 +327,14 @@ class PDUpdater {
 			return $_data;
 		}
 
-		$this->get_repository_info();
+		$options = Settings::get_option( EEP_SETTINGS_OPTION );
+		$level   = $options['beta_program'] ?? 'disabled';
 
-		$new_version = str_replace( $this->tag_name_prefix, "", $this->github_response['tag_name'] );
-		foreach ( $this->github_response['assets'] as $asset ) {
+		$response = $this->get_latest_version( $level );
+
+
+		$new_version = $this->remove_prefix( $response['tag_name'] );
+		foreach ( $response['assets'] as $asset ) {
 			if ( $asset['content_type'] == 'application/zip' && $asset['name'] == "aw3sm-eep-$new_version.zip" ) {
 				$download_zip = $asset['browser_download_url'];
 				break;
@@ -254,7 +351,7 @@ class PDUpdater {
 		$api_request_transient->tested   = '6.0'; // TODO: get from api
 
 		$api_request_transient->version       = $new_version;
-		$api_request_transient->last_updated  = $this->github_response['published_at'];
+		$api_request_transient->last_updated  = $response['published_at'];
 		$api_request_transient->download_link = $download_zip ?? null;
 		/*$api_request_transient->banners = [
 			"high" => "https://",
@@ -266,7 +363,7 @@ class PDUpdater {
 			// tabs in information plugin page
 			'Description' => $this->plugin['Description'],
 			// 'Updates'     => $this->github_response['body'],
-			'Changelog'   => $this->github_response['body'],
+			'Changelog'   => $response['body'],
 		];
 
 		$_data = $api_request_transient;
@@ -309,6 +406,7 @@ class PDUpdater {
 	 * @param $beta_program_level string Beta program level
 	 *
 	 * @return bool
+	 * @deprecated
 	 */
 	protected function protect_prerelease( string $beta_program_level ): bool {
 		if ( isset( $this->github_response['prerelease'] )
@@ -318,5 +416,20 @@ class PDUpdater {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Remove prefix from version name
+	 *
+	 * @param string $tag_name
+	 *
+	 * @return string
+	 */
+	protected function remove_prefix( string $tag_name ): string {
+		if ( substr( $tag_name, 0, strlen( $this->tag_name_prefix ) ) == $this->tag_name_prefix ) {
+			$tag_name = substr( $tag_name, strlen( $this->tag_name_prefix ) );
+		}
+
+		return $tag_name;
 	}
 }
