@@ -19,9 +19,10 @@ $ini = INI;
 
 // create replacement for readme.txt
 $replacements_txt = [
+	"/^Version: [0-9.\-a-zA-Z]*\n/m"        => "Version: $ini[version]\n",
 	"/^Requires PHP: [0-9.]*\n/m"      => "Requires PHP: $ini[php_required]\n",
 	"/^Tested up to: [0-9.]*\n/m"      => "Tested up to: $ini[tested_up_to]\n",
-	"/^Stable tag: [0-9.]*\n/m"        => "Stable tag: $ini[stable_tag]\n",
+	"/^Stable tag: [0-9.\-a-zA-Z]*\n/m"        => "Stable tag: $ini[stable_tag]\n",
 	"/^Requires at least: [0-9.]*\n/m" => "Requires at least: $ini[requires_at_least]\n",
     "/^Requires Elementor at least: [0-9.]*\n/m" => "Requires Elementor at least: $ini[elementor_requires_at_least]\n",
     "/^Elementor tested up to: [0-9.]*\n/m"      => "Elementor tested up to: $ini[elementor_tested_up_to]\n",
@@ -38,10 +39,10 @@ file_put_contents( $filename_dir, $content_txt );
 
 // create replacement for plugin.php
 $replacements_plugin_main = [
-	"/^ \* Version: [0-9.]*\n/m"                     => " * Version: $ini[version]\n",
+	"/^ \* Version: [0-9.\-a-zA-Z]*\n/m"                     => " * Version: $ini[version]\n",
 	"/^ \* Requires PHP: [0-9.]*\n/m"                => " * Requires PHP: $ini[php_required]\n",
 	"/^ \* Tested up to: [0-9.]*\n/m"                => " * Tested up to: $ini[tested_up_to]\n",
-	"/^ \* Stable tag: [0-9.]*\n/m"                  => " * Stable tag: $ini[stable_tag]\n",
+	"/^ \* Stable tag: [0-9.\-a-zA-Z]*\n/m"                  => " * Stable tag: $ini[stable_tag]\n",
 	"/^ \* Requires at least: [0-9.]*\n/m"           => " * Requires at least: $ini[requires_at_least]\n",
 	"/^ \* Requires Elementor at least: [0-9.]*\n/m" => " * Requires Elementor at least: $ini[elementor_requires_at_least]\n",
 	"/^ \* Elementor tested up to: [0-9.]*\n/m"      => " * Elementor tested up to: $ini[elementor_tested_up_to]\n",
