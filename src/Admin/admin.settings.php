@@ -28,9 +28,10 @@ Settings::add_field( 'beta_program', "Beta Tester", function () {
 	$option  = $options['beta_program'] ?? 'disabled';
 	?>
 	<select name="<?= EEP_SETTINGS_OPTION ?>[beta_program]">
-
 		<option value="disabled" <?= $option == 'disabled' ? 'selected' : null ?>>Nepovoleno</option>
-		<option value="active" <?= $option == 'active' ? 'selected' : null ?>>Povoleno</option>
+		<option value="dev" <?= $option == 'dev' ? 'selected' : null ?>>DEV verze</option>
+		<option value="alpha" <?= $option == 'alpha' ? 'selected' : null ?>>ALPHA verze</option>
+		<option value="beta" <?= $option == 'beta' ? 'selected' : null ?>>BETA verze</option>
 	</select>
 
 	<p class="description">
