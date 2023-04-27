@@ -24,7 +24,7 @@ Settings::add_section( EEP_BETA_SECTION,
 );
 
 Settings::add_field( 'beta_program', "Beta Tester", function () {
-	$options = get_option( EEP_SETTINGS_OPTION ); // TODO: dodělat jako wrapper
+	$options = Settings::get_option( EEP_SETTINGS_OPTION );
 	$option  = $options['beta_program'] ?? 'disabled';
 	?>
 	<select name="<?= EEP_SETTINGS_OPTION ?>[beta_program]">

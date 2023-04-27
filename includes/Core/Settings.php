@@ -118,8 +118,20 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	protected static function fields( $option_group ) {
+	static function fields( $option_group ) {
 		settings_fields( $option_group );
+	}
+
+	static function settings_sections( $page ) {
+		do_settings_sections( $page );
+	}
+
+	static function submit_button() {
+		submit_button();
+	}
+
+	static function get_option( string $option, $default = null ) {
+		return get_option( $option, $default );
 	}
 
 	/**
@@ -137,7 +149,8 @@ class Settings {
 		}
 		// TODO: empty array $this->sections
 		foreach ( $this->fields as $id => $field ) {
-			add_settings_field( $id, $field['title'], $field['callback'], $field['page'], $field['section'], $field['args'] );
+			add_settings_field( $id, $field['title'], $field['callback'], $field['page'], $field['section'],
+				$field['args'] );
 		}
 		// TODO: empty array $this->fields
 
