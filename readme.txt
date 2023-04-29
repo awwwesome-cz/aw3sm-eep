@@ -4,8 +4,8 @@ Donate link: https://awwwesome.cz/
 Tags: Elementor, Elementor Pro, Elementor Extension, Extension
 Requires at least: 6.0
 Tested up to: 6.2
-Version: 1.5.2
-Stable tag: 1.5.2
+Version: 1.6.0
+Stable tag: 1.6.0
 Requires Elementor at least: 3.6
 Elementor tested up to: 3.12.2
 Requires Elementor Pro at least: 3.6
@@ -30,6 +30,10 @@ Extension pack for elementor
 - Adding WooCommerce SaleBadge Widget
 
 == Changelog ==
+
+= 1.6.0 =
+* Adding admin pages
+* Fixing PDU
 
 = 1.5.0 =
 * Adding TablePress Widget

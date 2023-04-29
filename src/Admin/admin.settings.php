@@ -49,11 +49,9 @@ Settings::add_field( 'github_token', "GitHub Token", function () {
     <input name="<?= EEP_SETTINGS_OPTION ?>[github_token]" value="<?=$option?>">
 
     <p class="description">
-        <span style="color: red">Upozornění: Nedoporučujeme aktualizovat beta verze na produkčních webech.</span>
+        Určeno pro vyšší míru kontroly updatů. Využití převážně s
     </p>
 	<?php
 },
 	EEP_SETTINGS_GROUP,
 	EEP_BETA_SECTION );
-
-// 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

@@ -2,8 +2,7 @@
 [![Active Development](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
 
 
-Elementor Extension pack is an extension plugin for Elementor page builder. Adding many widgets.
-
+Elementor Extension pack is an extension plugin for Elementor page builder.
 ## Free Features
 
 - Adding `ACF repeater` widget

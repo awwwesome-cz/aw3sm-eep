@@ -2,7 +2,9 @@
 
 namespace AwwwesomeEEP\Includes;
 
+use AwwwesomeEEP\Includes\Core\Notice;
 use AwwwesomeEEP\Includes\Core\Settings;
+use http\Message\Parser;
 
 class PDUpdater {
 	/**
@@ -197,6 +199,15 @@ class PDUpdater {
 
 		curl_close( $curl );
 
+		if ( $info['http_code'] == 401 ) {
+			// bad credentials
+			// show info abyout bad credentials
+			Notice::waring( '
+				<p><strong>AW3SM Elementor Extension Pack</strong>: Nemůže nalézt žádné updaty.</p>
+				<p>Nejpíše jste zadali chybný <strong>GitHub Token</strong>. Opravte jej v
+				<a href="admin.php?page=aw3sm-eep-dashboard&tab=versions">nastavení pluginu</a>.</p>', true, true );
+		}
+
 		// check validity (!403)
 		if ( $info['http_code'] != 200 ) {
 			error_log( $response, true );
@@ -234,7 +245,7 @@ class PDUpdater {
 			default:
 				// Default disable pre-releases
 				$response = array_filter( $response, function ( $data ) {
-					return $data['prerelease'] == true;
+					return $data['prerelease'] == false;
 				} );
 		}
 
@@ -277,6 +288,10 @@ class PDUpdater {
 
 				$response = $this->get_latest_version( $level );
 
+				if ( $response == null ) {
+					return $transient;
+				}
+
 				// clear name
 				$new_version = $this->remove_prefix( $response['tag_name'] );
 
@@ -296,7 +311,6 @@ class PDUpdater {
 
 					$plugin = [
 						'url'         => $this->plugin['PluginURI'],
-						// TODO: hodilo error, že to je undefined pole, zjistit proč... hodilo po zapnutí dockeru "PluginURI"
 						'slug'        => $slug,
 						'package'     => $new_files ?? null,
 						'new_version' => $new_version
@@ -335,6 +349,9 @@ class PDUpdater {
 
 		$response = $this->get_latest_version( $level );
 
+		if ( $response == null ) {
+			return $_data;
+		}
 
 		$new_version = $this->remove_prefix( $response['tag_name'] );
 		foreach ( $response['assets'] as $asset ) {
@@ -344,6 +361,9 @@ class PDUpdater {
 			}
 		}
 
+		// $readme = $this->get_readme_txt( $response['tag_name'] );
+		// $readme = wpautop( $readme );
+
 		$api_request_transient         = new \stdClass();
 		$api_request_transient->name   = $this->plugin['Name'];
 		$api_request_transient->slug   = $this->plugin_basename;
@@ -351,22 +371,18 @@ class PDUpdater {
 		// $api_request_transient->author_profile = $this->plugin['AuthorURI'];
 		$api_request_transient->homepage = $this->plugin['PluginURI'];  // TODO: get from API
 		$api_request_transient->requires = $this->plugin['RequiresWP'];  // TODO: get from API
-		$api_request_transient->tested   = '6.0'; // TODO: get from api
+		$api_request_transient->tested   = '6.2'; // TODO: get from api response
 
 		$api_request_transient->version       = $new_version;
 		$api_request_transient->last_updated  = $response['published_at'];
 		$api_request_transient->download_link = $download_zip ?? null;
-		/*$api_request_transient->banners = [
-			"high" => "https://",
-			"low" => "https://"
-		];*/
-		$api_request_transient->autoupdate = true;
+		$api_request_transient->autoupdate    = true;
 
 		$api_request_transient->sections = [
 			// tabs in information plugin page
 			'Description' => $this->plugin['Description'],
 			// 'Updates'     => $this->github_response['body'],
-			'Changelog'   => $response['body'],
+			'Changelog'   => nl2br($response['body']),
 		];
 
 		$_data = $api_request_transient;
@@ -434,5 +450,53 @@ class PDUpdater {
 		}
 
 		return $tag_name;
+	}
+
+	/**
+	 * Get readme.txt from GitHub
+	 *
+	 * @param $tag_name
+	 *
+	 * @return string|null
+	 */
+	protected function get_readme_txt( $tag_name ): ?string {
+		$request_uri = sprintf( 'https://raw.githubusercontent.com/%s/%s/%s/readme.txt',
+			$this->github_username,
+			$this->github_repository,
+			$tag_name );
+
+		$curl = curl_init();
+
+
+		$headers = [ "User-Agent: PDUpdater/1.2.3" ]; // TODO: version
+		if ( $this->authorize_token ) {
+			$headers[] = "Authorization: token " . $this->authorize_token;
+		}
+
+		curl_setopt_array( $curl, [
+			CURLOPT_URL            => $request_uri,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING       => "",
+			CURLOPT_MAXREDIRS      => 10,
+			CURLOPT_TIMEOUT        => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST  => "GET",
+			CURLOPT_HTTPHEADER     => $headers
+		] );
+
+		$response = curl_exec( $curl );
+		$info     = curl_getinfo( $curl );
+
+		curl_close( $curl );
+
+		// check validity (!403)
+		if ( $info['http_code'] != 200 ) {
+			error_log( $response, true );
+
+			return null;
+		}
+
+		return $response;
 	}
 }
