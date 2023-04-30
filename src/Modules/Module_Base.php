@@ -3,6 +3,8 @@
 
 namespace AwwwesomeEEP\Modules;
 
+use Elementor\Core\DynamicTags\Tag;
+use Elementor\Widget_Base;
 use ElementorPro\Plugin;
 use Elementor\Core\Base\Module;
 use AwwwesomeEEP\Document;
@@ -194,5 +196,62 @@ abstract class Module_Base extends Module {
 	 */
 	protected function get_dynamic_tags() {
 		return [];
+	}
+
+	/**
+	 * Get All Widgets
+	 *
+	 * @return Widget_Base[]
+	 */
+	public function widgets(): array {
+		/** @var Widget_Base[] $widgets */
+		$widgets = [];
+		foreach ( $this->get_widgets() as $widget ) {
+			$class_name = $this->get_reflection()->getNamespaceName() . '\Widgets\\' . $widget;
+
+			/** @var Widget_Base $widget */
+			$widget    = new $class_name();
+			$widgets[] = $widget;
+		}
+
+		return $widgets;
+	}
+
+	/**
+	 * Get tags
+	 * @return Tag[]
+	 */
+	public function tags(): array {
+		/** @var Tag[] $tags */
+		$tags = [];
+		foreach ( $this->get_dynamic_tags() as $tag ) {
+			$class_name = $this->get_reflection()->getNamespaceName() . '\Tags\\' . $tag;
+
+			/** @var Tag $tag */
+			$tag    = new $class_name();
+			$tags[] = $tag;
+		}
+
+		return $tags;
+	}
+
+	/**
+	 * Get extends
+	 * @return Extend_Base[]
+	 */
+	public function extends(): array {
+		return [];
+		// TODO: fix get_title() non exist
+		/** @var Extend_Base[] $extends */
+		$extends = [];
+		foreach ( $this->get_extends() as $extend ) {
+			$class_name = $this->get_reflection()->getNamespaceName() . '\Extend\\' . $extend;
+
+			/** @var Extend_Base $extend */
+			$extend    = new $class_name();
+			$extends[] = $extend;
+		}
+
+		return $extends;
 	}
 }

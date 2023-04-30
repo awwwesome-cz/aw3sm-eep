@@ -2,6 +2,9 @@
 
 namespace AwwwesomeEEP;
 
+use AwwwesomeEEP\Includes\Core\Traits\Singleton;
+use AwwwesomeEEP\Modules\Module_Base;
+use Elementor\Core\Base\Module;
 use Elementor\Core\Modules_Manager;
 
 /**
@@ -12,6 +15,13 @@ use Elementor\Core\Modules_Manager;
  * @package AwwwesomeEEP\Modules
  */
 class ModuleManager extends Modules_Manager {
+	/**
+	 * Get all modules
+	 * @return Module_Base[]
+	 */
+	public static function modules(): array {
+		return (new self())->get_modules(null);
+	}
 
 	protected function get_modules_namespace_prefix() {
 		return 'AwwwesomeEEP';
