@@ -5,6 +5,7 @@ namespace AwwwesomeEEP\Includes;
 use AwwwesomeEEP\Includes\Core\Notice;
 use AwwwesomeEEP\Includes\Core\Settings;
 use http\Message\Parser;
+use function Sodium\compare;
 
 class PDUpdater {
 	/**
@@ -194,7 +195,7 @@ class PDUpdater {
 			CURLOPT_HTTPHEADER     => $headers
 		] );
 
-		$response = curl_exec( $curl );
+		$releases = curl_exec( $curl );
 		$info     = curl_getinfo( $curl );
 
 		curl_close( $curl );
@@ -210,48 +211,66 @@ class PDUpdater {
 
 		// check validity (!403)
 		if ( $info['http_code'] != 200 ) {
-			error_log( $response, true );
+			error_log( $releases, true );
 
 			return null;
 		}
 
-		$response = json_decode( $response, true );
+		$releases = json_decode( $releases, true );
 
 		// if not array, nothing to do
-		if ( ! is_array( $response ) ) {
+		if ( ! is_array( $releases ) ) {
 			return null;
 		}
+
+		// Default disable pre-releases
+		$releases_non_beta_program = array_filter( $releases, function ( $data ) {
+			return $data['prerelease'] == false;
+		} );
 
 		// filter array by beta_level and get latest
 		switch ( $beta_level ) {
 			case 'dev':
-				$response = array_filter( $response, function ( $data ) {
+				$releases_beta = array_filter( $releases, function ( $data ) {
 					// TODO: check prefix
 					return preg_match( "/^v[0-9.]*-dev[0-9.]*?$/", $data['tag_name'] );
 				} );
+				// merge releases
+				$releases = array_merge( (array) $releases_non_beta_program, (array) $releases_beta );
 				break;
 			case 'alpha':
-				$response = array_filter( $response, function ( $data ) {
+				$releases_beta = array_filter( $releases, function ( $data ) {
 					// TODO: check prefix
 					return preg_match( "/^v[0-9.]*-alpha[0-9.]*?$/", $data['tag_name'] );
 				} );
+				// merge releases
+				$releases = array_merge( (array) $releases_non_beta_program, (array) $releases_beta );
 				break;
 			case 'beta':
-				$response = array_filter( $response, function ( $data ) {
+				$releases_beta = array_filter( $releases, function ( $data ) {
 					// TODO: check prefix
 					return preg_match( "/^v[0-9.]*-beta[0-9.]*?$/", $data['tag_name'] );
 				} );
+				// merge releases
+				$releases = array_merge( (array) $releases_non_beta_program, (array) $releases_beta );
 				break;
 			default:
 				// Default disable pre-releases
-				$response = array_filter( $response, function ( $data ) {
+				$releases = array_filter( $releases, function ( $data ) {
 					return $data['prerelease'] == false;
 				} );
 		}
 
+
+		// order by version
+		usort( $releases, function ( $a, $b ) {
+			return version_compare( $b['tag_name'], $a['tag_name'], 'gt' );
+		} );
+
+
 		// get latest from array
-		if ( is_array( $response ) ) {
-			return current( $response );
+		if ( is_array( $releases ) ) {
+			return current( $releases );
 		} else {
 			return null;
 		}
@@ -382,7 +401,7 @@ class PDUpdater {
 			// tabs in information plugin page
 			'Description' => $this->plugin['Description'],
 			// 'Updates'     => $this->github_response['body'],
-			'Changelog'   => nl2br($response['body']),
+			'Changelog'   => nl2br( $response['body'] ),
 		];
 
 		$_data = $api_request_transient;
