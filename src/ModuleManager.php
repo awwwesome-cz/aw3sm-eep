@@ -4,6 +4,8 @@ namespace AwwwesomeEEP;
 
 use Elementor\Core\Modules_Manager;
 
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' ); // fixing is_plugin_active not active
+
 /**
  * Class ModuleLoader
  *

@@ -1,5 +1,6 @@
 === AW3SM Elementor Extension Pack ===
 Contributors: jakubjosefforman
+Requires Plugins: elementor, elementor-pro
 Donate link: https://awwwesome.cz/
 Tags: Elementor, Elementor Pro, Elementor Extension, Extension
 Requires at least: 6.0
@@ -30,6 +31,10 @@ Extension pack for elementor
 - Adding WooCommerce SaleBadge Widget
 
 == Changelog ==
+
+= 1.7.0 =
+* Adding Child navigation typography
+* Fixing Child navigation - dropdown icons
 
 = 1.6.0 =
 * Adding admin pages

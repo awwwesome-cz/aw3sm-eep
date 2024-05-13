@@ -29,3 +29,4 @@ preview/images/.DS_Store
 /.build/tmp/
 /lib/
 /src/Modules/**/*.css.map
+/composer.phar
