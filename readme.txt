@@ -4,13 +4,13 @@ Requires Plugins: elementor, elementor-pro
 Donate link: https://awwwesome.cz/
 Tags: Elementor, Elementor Pro, Elementor Extension, Extension
 Requires at least: 6.0
-Tested up to: 6.2
-Version: 1.6.0
-Stable tag: 1.6.0
+Tested up to: 6.5
+Version: 1.7.0
+Stable tag: 1.7.0
 Requires Elementor at least: 3.6
-Elementor tested up to: 3.12.2
+Elementor tested up to: 3.21.5
 Requires Elementor Pro at least: 3.6
-Elementor Pro tested up to: 3.12.3
+Elementor Pro tested up to: 3.21.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
