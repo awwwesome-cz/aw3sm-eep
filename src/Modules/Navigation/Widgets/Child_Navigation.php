@@ -156,6 +156,18 @@ class Child_Navigation extends Widget_Base
         );
 
         $this->add_control(
+            'hide_when_empty',
+            [
+                'label' => esc_html__('Hide if pages are empty', 'aw3sm-eep'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => esc_html__( 'Hide', 'aw3sm-eep' ),
+                'label_off' => esc_html__( 'Show', 'aw3sm-eep' ),
+                'return_value' => 'yes',
+                'default' => '',
+            ]
+        );
+
+        $this->add_control(
             'child_navigation_depth_description',
             [
                 'type' => Controls_Manager::RAW_HTML,
@@ -742,6 +754,21 @@ class Child_Navigation extends Widget_Base
         $html_tag = $this->get_settings_for_display('html_tag');
         $title_responsive = $this->get_settings_for_display('toggle_title');
         $dropdown_breakpoint = $this->get_settings_for_display('dropdown_breakpoint');
+        $hide_when_empty = $this->get_settings_for_display('hide_when_empty');
+
+        $pages = wp_list_pages(array(
+            'title_li' => '',
+            'depth' => $depth,
+            'child_of' => $top_page,
+            // 'sort_column' => $instance['sort_by'],
+            'exclude' => $exclude,
+            'echo' => false
+        ));
+
+        if (empty($pages) && $hide_when_empty === 'yes') {
+            return '';
+        }
+
         $_finalContent = "<nav class='child-navigation-container'>";
         // TODO: outside nav
         $_finalContent .= "<div class='menu-toggle'>";
@@ -766,14 +793,7 @@ class Child_Navigation extends Widget_Base
         }
         $_finalContent .= "<ul class='child-navigation modern'>";
 
-        $_finalContent .= wp_list_pages(array(
-            'title_li' => '',
-            'depth' => $depth,
-            'child_of' => $top_page,
-            // 'sort_column' => $instance['sort_by'],
-            'exclude' => $exclude,
-            'echo' => false
-        ));
+        $_finalContent .= $pages;
 
         $_finalContent .= "</ul>";
         $_finalContent .= "</div>";
