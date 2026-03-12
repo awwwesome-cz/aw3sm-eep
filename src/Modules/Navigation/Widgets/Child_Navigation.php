@@ -132,6 +132,7 @@ class Child_Navigation extends Widget_Base
         $types = [];
         $types['all'] = __('All pages', 'aw3sm-eep');
         $types['top_active_parent'] = __('Top Active Page Parent', 'aw3sm-eep');
+        $types['current_page'] = __('Current Page', 'aw3sm-eep');
 
         $this->add_control(
             'child_navigation_source',
@@ -143,6 +144,7 @@ class Child_Navigation extends Widget_Base
                 'options' => $types,
             ],
         );
+		
         $this->add_control(
             'child_navigation_depth',
             [
@@ -690,6 +692,9 @@ class Child_Navigation extends Widget_Base
             // show only top parent
             // $this->print_render_attribute_string( 'dropdown' );
             echo $this->render_nav($depth, $top_page);
+        } elseif ($source == 'current_page') {
+            // show only current page children
+            echo $this->render_nav($depth, $post->ID ?? null);
         } else {
             echo "Nothing to show";
         }
