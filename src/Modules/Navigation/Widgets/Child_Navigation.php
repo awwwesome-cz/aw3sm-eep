@@ -10,7 +10,7 @@ use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Icons_Manager;
 use Elementor\Plugin;
-use Elementor\Widget_Base;
+use Elementor\Utils;use Elementor\Widget_Base;
 
 class Child_Navigation extends Widget_Base
 {
@@ -144,7 +144,7 @@ class Child_Navigation extends Widget_Base
                 'options' => $types,
             ],
         );
-		
+
         $this->add_control(
             'child_navigation_depth',
             [
@@ -739,12 +739,16 @@ class Child_Navigation extends Widget_Base
     function render_nav(int $depth = 0, int $top_page = null, array $exclude = [])
     {
         $title = $this->get_settings_for_display('title');
+        $html_tag = $this->get_settings_for_display('html_tag');
         $title_responsive = $this->get_settings_for_display('toggle_title');
         $dropdown_breakpoint = $this->get_settings_for_display('dropdown_breakpoint');
         $_finalContent = "<nav class='child-navigation-container'>";
         // TODO: outside nav
         $_finalContent .= "<div class='menu-toggle'>";
-        $_finalContent .= "<div class='title'>$title_responsive</div>";
+		$_finalContent .= "<" . $html_tag . " class=\"title\">";
+		$_finalContent .= $title_responsive;
+		$_finalContent .= "</" . $html_tag . ">";
+        // $_finalContent .= "<div class='title'>$title_responsive</div>";
         if ($dropdown_breakpoint !== 'none') { // fix non defined data in toggle if disabled
             // TODO: nefunguje dobře
             $_finalContent .= $this->menu_toggle_icon();
@@ -755,7 +759,10 @@ class Child_Navigation extends Widget_Base
         //set title to hide clas on breakpoint
         $_finalContent .= "<div class='child-navigation-inner'>";
         if ($title) {
-            $_finalContent .= "<div class='title'>$title</div>";
+			$_finalContent .= "<" . $html_tag . " class=\"title\">";
+			$_finalContent .= $title;
+			$_finalContent .= "</" . $html_tag . ">";
+            // $_finalContent .= "<div class='title'>$title</div>";
         }
         $_finalContent .= "<ul class='child-navigation modern'>";
 
@@ -792,6 +799,23 @@ class Child_Navigation extends Widget_Base
                 ]
             ],
         );
+
+		$this->add_control(
+			'html_tag',
+			[
+				'label' => esc_html__( 'HTML Tag', 'aw3sm-eep' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'h2' => 'H2',
+					'h3' => 'H3',
+					'h4' => 'H4',
+					'h5' => 'H5',
+					'h6' => 'H6',
+					'div' => 'div',
+				],
+				'default' => 'h4',
+			]
+		);
 
         $this->add_responsive_control(
             'title_text_align',
