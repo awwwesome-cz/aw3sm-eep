@@ -4,13 +4,13 @@ Requires Plugins: elementor, elementor-pro
 Donate link: https://awwwesome.cz/
 Tags: Elementor, Elementor Pro, Elementor Extension, Extension
 Requires at least: 6.0
-Tested up to: 6.5
-Version: 1.7.0
-Stable tag: 1.7.0
+Tested up to: 6.9
+Version: 1.8.0
+Stable tag: 1.8.0
 Requires Elementor at least: 3.6
-Elementor tested up to: 3.21.5
+Elementor tested up to: 3.35.7
 Requires Elementor Pro at least: 3.6
-Elementor Pro tested up to: 3.21.2
+Elementor Pro tested up to: 3.35.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,10 @@ Extension pack for elementor
 - Adding WooCommerce SaleBadge Widget
 
 == Changelog ==
+
+= 1.8.0 =
+* Adding Child navigation title tag selector
+* Adding Child navigation self/actual page as root parent
 
 = 1.7.0 =
 * Adding Child navigation typography
