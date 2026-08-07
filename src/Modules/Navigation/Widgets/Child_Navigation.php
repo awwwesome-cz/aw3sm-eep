@@ -132,6 +132,7 @@ class Child_Navigation extends Widget_Base
         $types = [];
         $types['all'] = __('All pages', 'aw3sm-eep');
         $types['top_active_parent'] = __('Top Active Page Parent', 'aw3sm-eep');
+        $types['by_parent'] = __('Page Parent', 'aw3sm-eep');
         $types['current_page'] = __('Current Page', 'aw3sm-eep');
 
         $this->add_control(
@@ -701,10 +702,14 @@ class Child_Navigation extends Widget_Base
             // show all pages
             echo $this->render_nav($depth);
         } elseif ($source == 'top_active_parent') {
-            // show only top parent
-            // $this->print_render_attribute_string( 'dropdown' );
-            echo $this->render_nav($depth, $top_page);
-        } elseif ($source == 'current_page') {
+	        // show only top parent
+	        // $this->print_render_attribute_string( 'dropdown' );
+	        echo $this->render_nav( $depth, $top_page );
+        } elseif ($source == 'by_parent') {
+            // show only parent
+            $parent_page = $post->post_parent ?? null;
+            echo $this->render_nav($depth, $parent_page);
+        }elseif ($source == 'current_page') {
             // show only current page children
             echo $this->render_nav($depth, $post->ID ?? null);
         } else {
